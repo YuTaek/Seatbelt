@@ -1,6 +1,23 @@
 from tkinter import *
+from tkinter import messagebox 
 import os
+import pyrebase
 
+# This is a firebase database with some examples of it's functions
+firebaseConfig = {
+    'apiKey': "AIzaSyA4S4BmC0_dOuPbKLAJTKTzZIGCPXpeDuE",
+    'authDomain': "fir-password-ef198.firebaseapp.com",
+    'databaseURL': "https://fir-password-ef198-default-rtdb.firebaseio.com",
+    'projectId': "fir-password-ef198",
+    'storageBucket': "fir-password-ef198.appspot.com",
+    'messagingSenderId': "923724720186",
+    'appId': "1:923724720186:web:7ff9ffa57c054654e2ed03",
+    'measurementId': "G-10S5GMG96Q"
+}
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+
+db = firebase.database()
 
 # registration window
 def register():
@@ -58,22 +75,35 @@ def login():
     Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1, command = login_verify).pack()
  
 
-# register button event handler
 def register_user():
     username_info = username.get()
     password_info = password.get()
- 
- # opens a file in write mode and writes username and password into it 
-    file = open(username_info, "w")
-    file.write(username_info + "\n")
-    file.write(password_info)
-    file.close()
- 
+    exists = False
+    all_users = db.child("Users").get()
+
+    for users in all_users.each():
+        if (users.val()['name'] == username_info):
+            exists = True
+
+ # writes to the database
+    data = {
+        'name': username_info,
+        'password': password_info,
+    }
+    
     username_entry.delete(0, END)
     password_entry.delete(0, END)
+
+    
+    if (exists == False): 
+        result = db.child("Users").push(data)
+        # successful registration message
+
+        Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+        
+    else:
+        messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
  
- # successful registration message 
-    Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
  
 
 # login button event handler
@@ -84,18 +114,19 @@ def login_verify():
     # erase the login details after clicking login 
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
- 
-    list_of_files = os.listdir()
-    if username1 in list_of_files:
-        file1 = open(username1, "r")
-        verify = file1.read().splitlines()
-        if password1 in verify:
-            login_sucess()
- 
-        else:
-            password_not_recognised()
- 
-    else:
+    Userfound = False
+
+
+    all_users = db.child("Users").get()
+
+    for users in all_users.each():
+        if (users.val()['name'] == username1):
+            Userfound = True
+            if (users.val()['password'] == password1):
+                login_sucess()
+            else:
+                password_not_recognised()
+    if (Userfound == False):
         user_not_found()
  
 
@@ -115,7 +146,7 @@ def login_sucess():
 def password_not_recognised():
     global password_not_recog_screen
     password_not_recog_screen = Toplevel(login_screen)
-    password_not_recog_screen.title("Success")
+    password_not_recog_screen.title("Unsuccessful")
     password_not_recog_screen.geometry("400x250")
     Label(password_not_recog_screen, text="").pack()
     Label(password_not_recog_screen, text="Invalid Password", font=("Arial", 16)).pack()
@@ -127,7 +158,7 @@ def password_not_recognised():
 def user_not_found():
     global user_not_found_screen
     user_not_found_screen = Toplevel(login_screen)
-    user_not_found_screen.title("Success")
+    user_not_found_screen.title("Unsuccessful")
     user_not_found_screen.geometry("400x250")
     Label(user_not_found_screen, text="").pack()
     Label(user_not_found_screen, text="User Does Not Exist", font=("Arial", 16)).pack()
