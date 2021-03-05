@@ -6,7 +6,7 @@ char  = string.ascii_letters + string.digits + string.punctuation
 #Password generator page
 def password_generator_page():
     global generator_screen
-    generator_screen = Toplevel(main_screen)
+    generator_screen = Toplevel(pwdgenerator_screen)
     generator_screen.title("Password Generator")
     generator_screen.geometry("400x250")
     
@@ -30,18 +30,34 @@ def password_generator_page():
 
     
     
-    def pwd_generator():
+def pwd_generator():
     
     pwd_len = password_length.get()
     
-    pwd_output = ([random.choice(char)) for x in range(pwd_len - 4 )]
+    pwd_output = ([random.choice(char) for x in range(pwd_len - 4 )]
                  + [random.choice(string.ascii_lowercase
                           + string.ascii_uppercase
                           + string.punctuation
-                          + string.ascii_digits) for i in range(4)])
+                          + string.digits) for i in range(4)])
     
     random.shuffle(pwd_output)
     password = ''.join(pwd_output)
     
     pwd_gen.set(password)
-    
+
+def pwdgenerator_screen():
+    global pwdgenerator_screen
+    pwdgenerator_screen = Tk()      # GUI window creation
+    pwdgenerator_screen.geometry("400x300")     # size of the window
+    pwdgenerator_screen.title("Password Generator")      # window title 
+    Label(text="Password Generator", bg="Orange", width="300", height="2", font=("Arial", 23)).pack()
+    Label(text="").pack()
+    Label(text="").pack()
+    Button(text="Generate Password", bg="orange", height="1", width="20", command = password_generator_page, font=("Arial", 16)).pack()       
+    Label(text="").pack()
+    Label(text="").pack()
+
+    pwdgenerator_screen.mainloop() # intializes GUI 
+ 
+ 
+pwdgenerator_screen()
