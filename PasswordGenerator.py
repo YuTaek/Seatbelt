@@ -1,5 +1,6 @@
 from tkinter import *
 import random, string
+import pyperclip
 
 char  = string.ascii_letters + string.digits + string.punctuation
 
@@ -25,11 +26,16 @@ def password_generator_page():
     
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Generate password", font=("Arial", 16), width=20, height=1, bg="orange", command = pwd_generator).pack()
-    
     Entry(generator_screen , textvariable = pwd_gen).pack()
+    Label(generator_screen, text="").pack()
+    Button(generator_screen, text = 'COPY TO CLIPBOARD', command = copy_password).pack()
 
     
-    
+#Copy Password
+def copy_password():
+    pyperclip.copy(pwd_gen.get())
+
+
 def pwd_generator():
     
     pwd_len = password_length.get()
@@ -44,6 +50,7 @@ def pwd_generator():
     password = ''.join(pwd_output)
     
     pwd_gen.set(password)
+
 
 def pwdgenerator_screen():
     global pwdgenerator_screen
