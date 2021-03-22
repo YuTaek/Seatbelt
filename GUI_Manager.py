@@ -19,8 +19,8 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 data2 = {"name": "JOHN", "password": "DINOSAUR"}
-data3 = {"name": "jc", "password": "123"}
-#db.child("User").child("Accounts").push(data3)
+data3 = {"name": "j", "password": "123"}
+#db.child("User").push(data3)
 
 def noquote(s):
     return s
@@ -86,19 +86,22 @@ def login():
 
 def master():
     global register_master
-    register_master = Toplevel(main_screen)
+    register_master = Toplevel(login_success_screen)
     register_master.title("Enter Master")
     register_master.geometry("400x250")
 
     # text variables
     global mastername
     global masterword
+    global stor
     global mastername_entry
     global masterword_entry
+    global storage_entry
     mastername = StringVar()
     masterword = StringVar()
+    stor = StringVar()
 
-    Label(register_master, text="Please input Master Account details below", font=("Arial", 17), width=60,
+    Label(register_master, text="Please store your passwords below", font=("Arial", 17), width=60,
           bg="orange").pack()
     Label(register_master, text="").pack()
     username_lable = Label(register_master, text="New Username: ", font=("Arial", 16)).pack()
@@ -109,18 +112,22 @@ def master():
     masterword_entry = Entry(register_master, textvariable=masterword, show='*')
     masterword_entry.pack()
     Label(register_master, text="").pack()
-    Button(register_master, text="Click here to register", font=("Arial", 16), width=20, height=1, bg="orange",
+    password_lable = Label(register_master, text="UID: ", font=("Arial", 16)).pack()
+    storage_entry = Entry(register_master, textvariable=stor, show='*')
+    storage_entry.pack()
+    storage_entry.pack()
+    Button(register_master, text="Click here to store", font=("Arial", 16), width=20, height=1, bg="orange",
            command= registermaster).pack()
+
+
+
 
 def registermaster():
 
     username_info = mastername.get()
     password_info = masterword.get()
-    #exists = False
-    #all_users = db.child("Users").get()
-    #for users in all_users.each():
-        #if (users.val()['name'] == username_info):
-            #exists = True
+    storage_info = stor.get()
+
     print (username_info)
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
@@ -129,8 +136,8 @@ def registermaster():
     if is_ok:
 
             data = {"name": username_info, "password": password_info}
-            result = db.child("Users").push(data)
-            db.child(username_info).push(data)
+            result = db.child("Users").child(storage_info).push(data)
+
             Label(register_master, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
 
     else:
@@ -158,16 +165,12 @@ def register_user():
         if (exists == False):
             data = {"name": username_info, "password": password_info}
             result = db.child("Users").push(data)
-            db.child(username_info).push(data)
+            #db.child(username_info).push(data)
             Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
 
         else:
             messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
 
-       # with open("data.txt", "a") as data_file:
-            #data_ file.write(f"{username_info} | {password_info}\n")
-            #username_ento.delete(0, END)
-            #password_info.delete(0, END)
 
 
 
@@ -184,7 +187,7 @@ def login_verify():
     password_login_entry.delete(0, END)
     Userfound = False
 
-    all_users = db.child("User").get()
+    all_users = db.child("Users").get()
 
     for users in all_users.each():
         if (users.val()['name'] == username1):
@@ -208,26 +211,30 @@ def login_sucess():
     Label(login_success_screen, text="").pack()
 
 
-    Button(login_success_screen, text="OK", font=("Arial", 16), bg="orange", command=display).pack()
+
 
     Label(login_success_screen, text="").pack()
-    Button(login_success_screen, text="Register Password", font=("Arial", 16), bg="orange", command=register).pack()
+    Button(login_success_screen, text="Register Password", font=("Arial", 16), bg="orange", command=master).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Search", font=("Arial", 16), bg="orange", command=Search).pack()
+    Label(login_success_screen, text="").pack()
+    Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
 def display():
     global display
-    display = Toplevel(login_success_screen)
-    display.title("User Authenticated")
-    Label(display, text="Please input login details below", font=("Arial", 17), bg="orange", width=60).pack()
+    display = Toplevel(main_screen)
+    display.title("Find User")
+    Label(display, text="Find UID details below", font=("Arial", 17), bg="orange", width=60).pack()
     Label(display, text="").pack()
 
     display.geometry("400x250")
     Label(display, text="").pack()
+
     all_users = db.child("Users").get()
-    for users in all_users.each():
+    for user in all_users.each():
         #messagebox.showinfo(title="Oops", message=users.val())
-        Label(display, text=users.val(), fg="orange", font=("calibri", 15)).pack()
+       Label(display, text=user.val(), fg="orange", font=("calibri", 10)).pack()
+
 
 def Search():
     global search
@@ -251,6 +258,7 @@ def FoundUser():
     print(result.val())
 
     Label(search, text=result.val(), fg="orange", font=("calibri", 11)).pack()
+
 
 
 
@@ -309,9 +317,12 @@ def main_account_screen():
     Label(text="").pack()
     Button(text="User Registration", bg="orange", height="1", width="20", command=register,
            font=("Arial", 16)).pack()  # register button
+
     Label(text="").pack()
-    Button(text="Register Master Account", bg="orange", height="1", width="20", command=master,
+    Button(text="Find UID", bg="orange", height="1", width="20", command=display,
            font=("Arial", 16)).pack()  # register button
+    Label(text="").pack()
+
 
     main_screen.mainloop()  # intializes GUI
 
