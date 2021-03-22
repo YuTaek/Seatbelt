@@ -3,6 +3,8 @@ from tkinter import messagebox
 import os
 import pyrebase
 
+useruid = ""
+
 firebaseConfig = {
     'apiKey': "AIzaSyA4S4BmC0_dOuPbKLAJTKTzZIGCPXpeDuE",
     'authDomain': "fir-password-ef198.firebaseapp.com",
@@ -194,8 +196,14 @@ def login_verify():
             Userfound = True
             if (users.val()['password'] == password1):
                 login_sucess()
+                all_users = db.child("Users").get()
+                for user in all_users.each(): 
+                    if (username1 == user.val()['name']):
+                        useruid = user.key()
             else:
                 password_not_recognised()
+
+    print (useruid)
     if (Userfound == False):
         user_not_found()
 
