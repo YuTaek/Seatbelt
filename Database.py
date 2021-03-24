@@ -36,9 +36,9 @@ print(john.val())
 
 # receive All keys replace .key() with .value() to receive all data
 
-users = db.child("User").get()
-for user in users.each():
-    print(user.key())
+users = db.child("Users").get()
+data = {"name": "dsfsd", "password": "fsdfsd"}
+db.child("Users").push(data)
 
 # delete item with known key
 # db.child("User").child("John").remove()
