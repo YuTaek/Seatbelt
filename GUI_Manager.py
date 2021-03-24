@@ -132,11 +132,30 @@ def storepassword():
 
     storage_info = useruid
     all_users = db.child("Users").child(storage_info).get()
+    print (all_users.val())
     #for users in all_users.each():
         #if (users.val()['website'] == username_info):
             #exists = True
 
     #print (master_dm)
+
+    exists == False 
+
+    length = 0
+
+    for users in all_users.each():
+        length = length + 1
+    
+    length = length - 2
+    current = 0 
+
+    for users in all_users.each():
+        if (current < length):
+             if (users.val()['website'] == website_info):
+                if (users.val()['name'] == username_info):
+                    exists = True
+             current = current + 1
+                
 
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
@@ -148,9 +167,11 @@ def storepassword():
             result = db.child("Users").child(storage_info).push(data)
 
             Label(store_account, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+        else:
+            messagebox.showerror("showerror", "Data not stored")
 
     else:
-        messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
+        messagebox.showerror("showerror", "Data not stored")
 
 
 
