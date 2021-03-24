@@ -20,14 +20,6 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 
 db = firebase.database()
 
-data2 = {"name": "JOHN", "password": "DINOSAUR"}
-data3 = {"name": "j", "password": "123"}
-#db.child("User").push(data3)
-
-def noquote(s):
-    return s
-pyrebase.pyrebase.quote = noquote
-
 # registration window
 def register():
     global register_screen
@@ -86,61 +78,76 @@ def login():
     Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1,
            command=login_verify).pack()
 
-def master():
-    global register_master
-    register_master = Toplevel(login_success_screen)
-    register_master.title("Enter Master")
-    register_master.geometry("400x250")
+def store():
+    global store_account
+    store_account = Toplevel(login_success_screen)
+    store_account.title("Store Acoount")
+    store_account.geometry("400x250")
 
     # text variables
-    global mastername
-    global masterword
-    global stor
-    global mastername_entry
-    global masterword_entry
-    global storage_entry
-    mastername = StringVar()
-    masterword = StringVar()
-    stor = StringVar()
+    global storename
+    global storeword
+    global website
+    global storename_entry
+    global storeword_entry
+    global website_entry
+    global iv
+    global iv_entry
+    storename = StringVar()
+    storeword = StringVar()
+    website = StringVar()
+    iv = StringVar()
 
-    Label(register_master, text="Please store your passwords below", font=("Arial", 17), width=60,
+    Label(store_account, text="Please store information below", font=("Arial", 17), width=60,
           bg="orange").pack()
-    Label(register_master, text="").pack()
-    username_lable = Label(register_master, text="New Username: ", font=("Arial", 16)).pack()
-    mastername_entry = Entry(register_master, textvariable=mastername)
-    mastername_entry.pack()
-    Label(register_master, text="").pack()
-    password_lable = Label(register_master, text="New Password: ", font=("Arial", 16)).pack()
-    masterword_entry = Entry(register_master, textvariable=masterword, show='*')
-    masterword_entry.pack()
-    Label(register_master, text="").pack()
-    password_lable = Label(register_master, text="UID: ", font=("Arial", 16)).pack()
-    storage_entry = Entry(register_master, textvariable=stor, show='*')
-    storage_entry.pack()
-    storage_entry.pack()
-    Button(register_master, text="Click here to store", font=("Arial", 16), width=20, height=1, bg="orange",
-           command= registermaster).pack()
+    Label(store_account, text="").pack()
+    username_lable = Label(store_account, text="New Username: ", font=("Arial", 16)).pack()
+    storename_entry = Entry(store_account, textvariable=storename)
+    storename_entry.pack()
+    Label(store_account, text="").pack()
+    password_lable = Label(store_account, text="New Password: ", font=("Arial", 16)).pack()
+    storeword_entry = Entry(store_account, textvariable=storeword)
+    storeword_entry.pack()
+    Label(store_account, text="").pack()
+    site_lable = Label(store_account, text="Website: ", font=("Arial", 16)).pack()
+    website_entry = Entry(store_account, textvariable=website)
+    website_entry.pack()
+    Label(store_account, text="").pack()
+    site_lable = Label(store_account, text="IV: ", font=("Arial", 16)).pack()
+    iv_entry = Entry(store_account, textvariable=iv)
+    iv_entry.pack()
+    Label(store_account, text="").pack()
+    Button(store_account, text="Click here to store", font=("Arial", 16), width=20, height=1, bg="orange",
+           command= storepassword).pack()
 
 
 
 
-def registermaster():
+def storepassword():
 
-    username_info = mastername.get()
-    password_info = masterword.get()
-    storage_info = stor.get()
+    username_info = storename.get()
+    password_info =storeword.get()
+    website_info = website.get()
+    exists = False
 
-    print (username_info)
+    storage_info = useruid
+    all_users = db.child("Users").child(storage_info).get()
+    #for users in all_users.each():
+        #if (users.val()['website'] == username_info):
+            #exists = True
+
+    #print (master_dm)
+
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
 
     is_ok = messagebox.askokcancel(title="username info",message=f"Details entered : \nUserName: {username_info} \nPassword: {password_info} \nAre you sure you want to save this? ")
     if is_ok:
-
-            data = {"name": username_info, "password": password_info}
+        if (exists == False):
+            data = {"name": username_info, "password": password_info, "website": website_info}
             result = db.child("Users").child(storage_info).push(data)
 
-            Label(register_master, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+            Label(store_account, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
 
     else:
         messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
@@ -156,6 +163,7 @@ def register_user():
     exists = False
     all_users = db.child("Users").get()
     for users in all_users.each():
+
         if (users.val()['name'] == username_info):
             exists = True
 
@@ -184,7 +192,9 @@ def login_verify():
     # retrieve login details
     username1 = username_verify.get()
     password1 = password_verify.get()
-    # erase the login details after clicking login 
+    global useruid
+    useruid = StringVar()
+    # erase the login details after clicking login
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
     Userfound = False
@@ -197,7 +207,7 @@ def login_verify():
             if (users.val()['password'] == password1):
                 login_sucess()
                 all_users = db.child("Users").get()
-                for user in all_users.each(): 
+                for user in all_users.each():
                     if (username1 == user.val()['name']):
                         useruid = user.key()
             else:
@@ -222,34 +232,23 @@ def login_sucess():
 
 
     Label(login_success_screen, text="").pack()
-    Button(login_success_screen, text="Register Password", font=("Arial", 16), bg="orange", command=master).pack()
+    Button(login_success_screen, text="Store Password", font=("Arial", 16), bg="orange", command=store).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Search", font=("Arial", 16), bg="orange", command=Search).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
-def display():
-    global display
-    display = Toplevel(main_screen)
-    display.title("Find User")
-    Label(display, text="Find UID details below", font=("Arial", 17), bg="orange", width=60).pack()
-    Label(display, text="").pack()
-
-    display.geometry("400x250")
-    Label(display, text="").pack()
-
-    all_users = db.child("Users").get()
-    for user in all_users.each():
-        #messagebox.showinfo(title="Oops", message=users.val())
-       Label(display, text=user.val(), fg="orange", font=("calibri", 10)).pack()
 
 
 def Search():
     global search
 
     global search_entry
+    global site_entry
     global searchvar
+    global sitevar
     searchvar = StringVar()
+    sitevar = StringVar()
     search = Toplevel(login_success_screen)
     search.title("Search Username")
     Label(search, text="Search Username below", font=("Arial", 17), bg="orange", width=60).pack()
@@ -258,14 +257,26 @@ def Search():
     search_entry = Entry(search, textvariable= searchvar)
     search_entry.pack()
     Label(search, text="").pack()
+    Label(search, text="Website: ", font=("Arial", 16)).pack()
+    site_entry = Entry(search, textvariable=sitevar)
+    site_entry.pack()
+    Label(search, text="").pack()
     Button(search, text="Search", font=("Arial", 16), bg="orange", command=FoundUser).pack()
 
 def FoundUser():
+    storage_info = useruid
     username = searchvar.get()
-    result = db.child("Users").order_by_child('name').equal_to(username).get()
-    print(result.val())
+    website = sitevar.get()
 
-    Label(search, text=result.val(), fg="orange", font=("calibri", 11)).pack()
+    if len(username) == 0 or len(website) == 0:
+        messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
+    all_users = db.child("Users").child(storage_info).get()
+    for users in all_users.each():
+
+        if (users.val()['name'] == username and users.val()['website'] == website):
+
+
+         Label(search, text=users.val()['password'], fg="orange", font=("calibri", 11)).pack()
 
 
 
@@ -327,9 +338,7 @@ def main_account_screen():
            font=("Arial", 16)).pack()  # register button
 
     Label(text="").pack()
-    Button(text="Find UID", bg="orange", height="1", width="20", command=display,
-           font=("Arial", 16)).pack()  # register button
-    Label(text="").pack()
+
 
 
     main_screen.mainloop()  # intializes GUI
