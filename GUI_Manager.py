@@ -2,8 +2,11 @@ from tkinter import *
 from tkinter import messagebox
 import os
 import pyrebase
+from EncryptionAndDecryption import *
+
 
 useruid = ""
+masterpw = ""
 
 firebaseConfig = {
     'apiKey': "AIzaSyA4S4BmC0_dOuPbKLAJTKTzZIGCPXpeDuE",
@@ -91,8 +94,7 @@ def store():
     global storename_entry
     global storeword_entry
     global website_entry
-    global iv
-    global iv_entry
+    
     storename = StringVar()
     storeword = StringVar()
     website = StringVar()
@@ -113,10 +115,7 @@ def store():
     website_entry = Entry(store_account, textvariable=website)
     website_entry.pack()
     Label(store_account, text="").pack()
-    site_lable = Label(store_account, text="IV: ", font=("Arial", 16)).pack()
-    iv_entry = Entry(store_account, textvariable=iv)
-    iv_entry.pack()
-    Label(store_account, text="").pack()
+
     Button(store_account, text="Click here to store", font=("Arial", 16), width=20, height=1, bg="orange",
            command= storepassword).pack()
 
@@ -129,33 +128,35 @@ def storepassword():
     password_info =storeword.get()
     website_info = website.get()
     exists = False
-
+    global useruid
+    global masterpw
+    print (useruid)
     storage_info = useruid
-    all_users = db.child("Users").child(storage_info).get()
-    print (all_users.val())
+    all_users = db.child("Users").child(useruid).get()
     #for users in all_users.each():
         #if (users.val()['website'] == username_info):
             #exists = True
 
     #print (master_dm)
 
-    exists == False 
-
     length = 0
-
-    for users in all_users.each():
-        length = length + 1
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            length = length + 1
     
     length = length - 2
     current = 0 
 
-    for users in all_users.each():
-        if (current < length):
-             if (users.val()['website'] == website_info):
-                if (users.val()['name'] == username_info):
-                    exists = True
-             current = current + 1
-                
+    print (length)
+
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            if (current < length):
+                if (users.val()['website'] == website_info):
+                    if (users.val()['name'] == username_info):
+                        exists = True
+                current = current + 1
+                    
 
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
@@ -163,10 +164,11 @@ def storepassword():
     is_ok = messagebox.askokcancel(title="username info",message=f"Details entered : \nUserName: {username_info} \nPassword: {password_info} \nAre you sure you want to save this? ")
     if is_ok:
         if (exists == False):
-            data = {"name": username_info, "password": password_info, "website": website_info}
-            result = db.child("Users").child(storage_info).push(data)
+            nonce, encrypted = encrypt_firebase_pw(password_info, masterpw)
+            data = {"name": username_info, "password": encrypted, "website": website_info, "nonce": nonce}
+            result = db.child("Users").child(useruid).push(data)
 
-            Label(store_account, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+            Label(store_account, text="Password Storage Successful", fg="orange", font=("calibri", 11)).pack()
         else:
             messagebox.showerror("showerror", "Data not stored")
 
@@ -194,7 +196,9 @@ def register_user():
     is_ok = messagebox.askokcancel(title=username_info,message=f"These are the details entered : \nUserName: {username_info} \nPassword: {password_info} \nAre you sure you want to save this? ")
     if is_ok:
         if (exists == False):
-            data = {"name": username_info, "password": password_info}
+            userhash = encrypt_master(username_info)
+            passwordhash = encrypt_master(password_info)
+            data = {"name": userhash, "password": passwordhash}
             result = db.child("Users").push(data)
             #db.child(username_info).push(data)
             Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
@@ -214,7 +218,7 @@ def login_verify():
     username1 = username_verify.get()
     password1 = password_verify.get()
     global useruid
-    useruid = StringVar()
+    global masterpw
     # erase the login details after clicking login
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
@@ -222,19 +226,24 @@ def login_verify():
 
     all_users = db.child("Users").get()
 
+    hashuser = encrypt_master(username1)
+    hashpass = encrypt_master(password1)
+
     for users in all_users.each():
-        if (users.val()['name'] == username1):
+        if (users.val()['name'] == hashuser):
             Userfound = True
-            if (users.val()['password'] == password1):
-                login_sucess()
+            if (users.val()['password'] == hashpass):
                 all_users = db.child("Users").get()
                 for user in all_users.each():
-                    if (username1 == user.val()['name']):
+                    if (hashuser == user.val()['name']):
+                        global useruid
+                        global masterpw
                         useruid = user.key()
+                        masterpw = user.val()['password']
+                login_sucess()
             else:
                 password_not_recognised()
 
-    print (useruid)
     if (Userfound == False):
         user_not_found()
 
@@ -255,11 +264,103 @@ def login_sucess():
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Store Password", font=("Arial", 16), bg="orange", command=store).pack()
     Label(login_success_screen, text="").pack()
+    Button(login_success_screen, text=" Update Password", font=("Arial", 16), bg="orange", command=Update).pack()
+    Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Search", font=("Arial", 16), bg="orange", command=Search).pack()
+    Label(login_success_screen, text="").pack()
+    Button(login_success_screen, text="Sync Locally", font=("Arial", 16), bg="orange", command=Sync).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
+def Update():
+    global update_account
+    update_account = Toplevel(login_success_screen)
+    update_account.title("Update Password Info")
+    update_account.geometry("400x250")
 
+    # text variables
+    global updatename
+    global updateword
+    global updatewebsite
+    global updatename_entry
+    global updateword_entry
+    global website_entry
+    
+    updatename = StringVar()
+    updateword = StringVar()
+    updatewebsite = StringVar()
+    iv = StringVar()
+
+    Label(update_account, text="Please update information below", font=("Arial", 17), width=60,
+          bg="orange").pack()
+    Label(update_account, text="").pack()
+    username_lable = Label(update_account, text="Username: ", font=("Arial", 16)).pack()
+    updatename_entry = Entry(update_account, textvariable=updatename)
+    updatename_entry.pack()
+    Label(update_account, text="").pack()
+    site_lable = Label(update_account, text="Website: ", font=("Arial", 16)).pack()
+    website_entry = Entry(update_account, textvariable=updatewebsite)
+    website_entry.pack()
+    Label(update_account, text="").pack()
+    password_lable = Label(update_account, text="New Password: ", font=("Arial", 16)).pack()
+    updateword_entry = Entry(update_account, textvariable=updateword)
+    updateword_entry.pack()
+    Label(update_account, text="").pack()
+
+    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange",
+           command=UpdatePassword).pack()
+
+def UpdatePassword():
+    username = updatename.get()
+    website = updatewebsite.get()
+    password = updateword.get()
+    global useruid
+    global masterpw
+    global cwd
+    storage_info = useruid 
+    #update pw locally
+
+    database = r"%s\pythonsqlite.db" % cwd
+    conn = create_connection(database)
+
+    nonce, encrypted = encrypt_firebase_pw(password, masterpw)
+    with conn:
+        update_password(conn, (encrypted, nonce, username, website))
+
+    all_users = db.child("Users").child(storage_info).get()
+    length = 0
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            length = length + 1
+        
+    length = length - 2
+    current = 0 
+    found = False
+
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            if (current < length):
+                if (users.val()['website'] == website):
+                    if (users.val()['name'] == username): 
+                        found = True
+                        print (users.key())
+                        nonce, encrypted = encrypt_firebase_pw(password, masterpw)
+                        db.child("Users").child(storage_info).child(users.key()).update({"password": encrypted, "nonce": nonce})
+                current = current + 1
+    if (found == False):
+        messagebox.showinfo(title="Oops", message="There was no entry found.")
+
+    #delete(conn)
+    #main(useruid, masterpw)
+    #update in firestore
+
+    
+
+def Sync():
+    global useruid
+    global masterpw
+    main(useruid, masterpw)
+    messagebox.showinfo(title="Successful Sync", message="Your data has been successfully synced locally.")
 
 def Search():
     global search
@@ -288,20 +389,46 @@ def FoundUser():
     storage_info = useruid
     username = searchvar.get()
     website = sitevar.get()
+    global masterpw
+
+    found = False
 
     if len(username) == 0 or len(website) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
-    all_users = db.child("Users").child(storage_info).get()
-    for users in all_users.each():
+        
+    # search locally first
 
-        if (users.val()['name'] == username and users.val()['website'] == website):
+    passwordfound = decrypt_pw(website, username, masterpw)
 
+    if (passwordfound != False):
+        print ("here")
+        found = True
+        Label(search, text=passwordfound, fg="orange", font=("calibri", 11)).pack()
 
-         Label(search, text=users.val()['password'], fg="orange", font=("calibri", 11)).pack()
+    if (found == False):
+        all_users = db.child("Users").child(storage_info).get()
 
+        length = 0
+        if (all_users.each() is not None):
+            for users in all_users.each():
+                length = length + 1
+        
+        length = length - 2
+        current = 0 
 
+        print (length)
 
-
+        if (all_users.each() is not None):
+            for users in all_users.each():
+                if (current < length):
+                    if (users.val()['website'] == website):
+                        if (users.val()['name'] == username):
+                            decrypted = decrypt_firebase_pw(users.val()['password'], users.val()['nonce'], masterpw)
+                            found = True
+                            Label(search, text=decrypted, fg="orange", font=("calibri", 11)).pack()
+                    current = current + 1
+    if (found == False):
+        Label(search, text="Entry not found", fg="orange", font=("calibri", 11)).pack()
 
 # Designing popup for login invalid password
 def password_not_recognised():
