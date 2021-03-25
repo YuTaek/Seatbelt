@@ -72,11 +72,34 @@ def find_encrypted(conn, website, username):
     
     cur = conn.cursor()
     cur.execute("SELECT password FROM passwords WHERE website=? AND username=?", (website,username))
-
+    try:
+        cur.execute("SELECT password FROM passwords WHERE website=? AND username=?", (website,username))
+    except:
+        return False
     rows = cur.fetchall()
 
     for row in rows:
         return row[0]
+
+def update_pw(conn, website, username, newpw, nonce):
+    cur = conn.cursor()
+    cur.execute("UPDATE passwords SET password=? WHERE website=? AND username=?", (newpw,website,username))
+    cur.execute("UPDATE passwords SET nonce =? WHERE website=? AND username=?", (nonce,website,username))
+    
+def update_password(conn, task):
+    """
+    update password
+    """
+    sql = ''' UPDATE passwords
+              SET password = ? ,
+                  nonce = ?
+              WHERE username = ? AND website = ?'''
+    cur = conn.cursor()
+    try:
+        cur.execute(sql, task)    
+    except:
+     return False
+    conn.commit()
 
 def find_nonce(conn, website, username):
     
@@ -87,6 +110,14 @@ def find_nonce(conn, website, username):
 
     for row in rows:
         return row[0]
+
+def delete (conn):
+    cur = conn.cursor()
+    try:
+        cur.execute("DROP TABLE passwords")
+    except:
+        return False
+
 
 
 def main(useruid, masterpw):

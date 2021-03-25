@@ -264,12 +264,97 @@ def login_sucess():
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Store Password", font=("Arial", 16), bg="orange", command=store).pack()
     Label(login_success_screen, text="").pack()
+    Button(login_success_screen, text=" Update Password", font=("Arial", 16), bg="orange", command=Update).pack()
+    Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Search", font=("Arial", 16), bg="orange", command=Search).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Sync Locally", font=("Arial", 16), bg="orange", command=Sync).pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
+def Update():
+    global update_account
+    update_account = Toplevel(login_success_screen)
+    update_account.title("Update Password Info")
+    update_account.geometry("400x250")
+
+    # text variables
+    global updatename
+    global updateword
+    global updatewebsite
+    global updatename_entry
+    global updateword_entry
+    global website_entry
+    
+    updatename = StringVar()
+    updateword = StringVar()
+    updatewebsite = StringVar()
+    iv = StringVar()
+
+    Label(update_account, text="Please update information below", font=("Arial", 17), width=60,
+          bg="orange").pack()
+    Label(update_account, text="").pack()
+    username_lable = Label(update_account, text="Username: ", font=("Arial", 16)).pack()
+    updatename_entry = Entry(update_account, textvariable=updatename)
+    updatename_entry.pack()
+    Label(update_account, text="").pack()
+    site_lable = Label(update_account, text="Website: ", font=("Arial", 16)).pack()
+    website_entry = Entry(update_account, textvariable=updatewebsite)
+    website_entry.pack()
+    Label(update_account, text="").pack()
+    password_lable = Label(update_account, text="New Password: ", font=("Arial", 16)).pack()
+    updateword_entry = Entry(update_account, textvariable=updateword)
+    updateword_entry.pack()
+    Label(update_account, text="").pack()
+
+    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange",
+           command=UpdatePassword).pack()
+
+def UpdatePassword():
+    username = updatename.get()
+    website = updatewebsite.get()
+    password = updateword.get()
+    global useruid
+    global masterpw
+    global cwd
+    storage_info = useruid 
+    #update pw locally
+
+    database = r"%s\pythonsqlite.db" % cwd
+    conn = create_connection(database)
+
+    nonce, encrypted = encrypt_firebase_pw(password, masterpw)
+    with conn:
+        update_password(conn, (encrypted, nonce, username, website))
+
+    all_users = db.child("Users").child(storage_info).get()
+    length = 0
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            length = length + 1
+        
+    length = length - 2
+    current = 0 
+    found = False
+
+    if (all_users.each() is not None):
+        for users in all_users.each():
+            if (current < length):
+                if (users.val()['website'] == website):
+                    if (users.val()['name'] == username): 
+                        found = True
+                        print (users.key())
+                        nonce, encrypted = encrypt_firebase_pw(password, masterpw)
+                        db.child("Users").child(storage_info).child(users.key()).update({"password": encrypted, "nonce": nonce})
+                current = current + 1
+    if (found == False):
+        messagebox.showinfo(title="Oops", message="There was no entry found.")
+
+    #delete(conn)
+    #main(useruid, masterpw)
+    #update in firestore
+
+    
 
 def Sync():
     global useruid
