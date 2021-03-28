@@ -7,9 +7,6 @@ Naveed Hossain: 101049011</p>
 Zarish Owais: 100712733</p>
 RC Syed: 101049886</p>
 
-This password generator acts as a tool that is able to generate a password that follow the guidelines a user sets. Additionally, the password manager would have a secure storage and management of passwords in an encrypted database and allow user to receive them on demand.
-
-
 ## Contents
 1. [Overview](#Overview)
 2. [Utilization](#Utilization)
