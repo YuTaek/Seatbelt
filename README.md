@@ -46,7 +46,7 @@ If the user creates an account, the SHA3 hash of both the username and the passw
 **RC Syed**
 
 Roles:
-Assisted in storing and retrieving passwords, implemented the login and registration capabalities with Firestore, implemented local syncing and storing and retrieving with SQLite, implemented the update feature and finding compromised passwords, implemented the sha3 hashing for user login and storage of login, and the block cipher method EAX for the storage of passwords, implemented the decryption of passwords when searching for them 
+Assisted in storing and retrieving passwords in Firestore, implemented the login and registration capabalities with Firestore, implemented local syncing and storing and retrieving with SQLite, implemented the update feature and finding compromised passwords, implemented the sha3 hashing for user login and storage of login, and the block cipher method EAX for the storage of passwords, implemented the decryption of passwords when searching for them 
 
 **Yutaek Hwang**
 
