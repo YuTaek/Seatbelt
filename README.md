@@ -1,11 +1,11 @@
 Seatbelt is a simple password manager that can be synced locally or using Firestore. This is a project created for COMP4019.
 
 
-Group Members:
-Yutaek Hwang: 101073993 
-Naveed Hossain: 101049011
-Zarish Owais: 100712733
-RC Syed: 101049886
+Group Members:</p>
+Yutaek Hwang: 101073993 </p>
+Naveed Hossain: 101049011</p>
+Zarish Owais: 100712733</p>
+RC Syed: 101049886</p>
 
 This password generator acts as a tool that is able to generate a password that follow the guidelines a user sets. Additionally, the password manager would have a secure storage and management of passwords in an encrypted database and allow user to receive them on demand.
 
