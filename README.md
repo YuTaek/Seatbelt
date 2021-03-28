@@ -22,7 +22,8 @@ This program is created utilizing python, so the user must have python downloade
 ```pip install pyrebase```
 
 ### Step 1: Clone the Repo
-```git clone https://github.com/YuTaek/Seatbelt.git```
+```git clone https://github.com/YuTaek/Seatbelt.git```</p>
+
 ```cd Seatbelt```
 
 ### Step 2: Run the Program
