@@ -17,7 +17,9 @@ RC Syed: 101049886</p>
 This password generator acts as a tool that is able to generate a password that follow the guidelines a user sets. Additionally, the password manager would have a secure storage and management of passwords in an encrypted database and allow user to receive them on demand. 
 
 ### Step 1: Dependencies
-This program is created utilizing python, so the user must have python downloaded in order to run the program.
+This program is created utilizing python, so the user must have python downloaded in order to run the program. Additionally, this program utilizes pyrebase, so the user must run:
+
+```pip install pyrebase```
 
 ### Step 1: Clone the Repo
 ```git clone https://github.com/YuTaek/Seatbelt.git```
