@@ -33,6 +33,12 @@ This program is created utilizing python, so the user must have python downloade
 ## Utilization
 
 </p>
+To begin, the user is asked to log in or create an account.</p>
+
+![image](https://user-images.githubusercontent.com/47705261/112763066-f917fb00-8fd0-11eb-9fcc-d3a41ffb6e0e.png)</p>
+
+If the user creates an account, the SHA3 hash of both the username and the password is stored, for security reasons. Only unique usernames and strong passwords will be accepted to create an account. </p>
+![image](https://user-images.githubusercontent.com/47705261/112763149-3aa8a600-8fd1-11eb-966f-437d97bd0d30.png)</p>
 
 ## Credits
 
