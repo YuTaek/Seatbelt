@@ -125,31 +125,33 @@ def store():
 
 
 def storepassword():
-
     username_info = storename.get()
-    password_info =storeword.get()
+    password_info = storeword.get()
     website_info = website.get()
     exists = False
     global useruid
     global masterpw
-    print (useruid)
+    print(useruid)
     storage_info = useruid
     all_users = db.child("Users").child(useruid).get()
-    #for users in all_users.each():
-        #if (users.val()['website'] == username_info):
-            #exists = True
+    # for users in all_users.each():
+    # if (users.val()['website'] == username_info):
+    # exists = True
 
-    #print (master_dm)
+    # print (master_dm)
+
+    p = Strength(password_info)
+    print(p)
 
     length = 0
     if (all_users.each() is not None):
         for users in all_users.each():
             length = length + 1
-    
-    length = length - 2
-    current = 0 
 
-    print (length)
+    length = length - 2
+    current = 0
+
+    print(length)
 
     if (all_users.each() is not None):
         for users in all_users.each():
@@ -158,24 +160,59 @@ def storepassword():
                     if (users.val()['name'] == username_info):
                         exists = True
                 current = current + 1
-                    
 
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
 
-    is_ok = messagebox.askokcancel(title="username info",message=f"Details entered : \nUserName: {username_info} \nPassword: {password_info} \nAre you sure you want to save this? ")
-    if is_ok:
-        if (exists == False):
+    if p == 0:
+        messagebox.showinfo(title="Weak", message="Your password is too weak")
+
+    elif p ==1:
+        messagebox.showinfo(title="Medium", message="Your password is at medium strenth")
+    else:
+         if (exists == False):
             nonce, encrypted = encrypt_firebase_pw(password_info, masterpw)
             data = {"name": username_info, "password": encrypted, "website": website_info, "nonce": nonce}
             result = db.child("Users").child(useruid).push(data)
 
             Label(store_account, text="Password Storage Successful", fg="orange", font=("calibri", 11)).pack()
-        else:
+         else:
             messagebox.showerror("showerror", "Data not stored")
 
+
+
+def Strength(input):
+
+    num = len(input)
+
+    hasLower = False
+    hasUpper = False
+    hasDigit = False
+    specialChar = False
+    normalChars = "abcdefghijklmnopqrstu"
+    "vwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+
+    for i in range(num):
+        if input[i].islower():
+            hasLower = True
+        if input[i].isupper():
+            hasUpper = True
+        if input[i].isdigit():
+            hasDigit = True
+        if input[i] not in normalChars:
+            specialChar = True
+
+   
+    if (hasLower and hasUpper and
+            hasDigit and specialChar and num >= 8):
+        return 2
+
+    elif ((hasLower or hasUpper) and
+          hasDigit and num >= 4):
+        return 1
     else:
-        messagebox.showerror("showerror", "Data not stored")
+        return 0
+
 
 
 
