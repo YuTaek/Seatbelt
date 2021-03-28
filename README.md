@@ -16,6 +16,10 @@ RC Syed: 101049886</p>
 
 This password generator acts as a tool that is able to generate a password that follow the guidelines a user sets. Additionally, the password manager would have a secure storage and management of passwords in an encrypted database and allow user to receive them on demand. 
 
+To run this program, you would run:
+
+``` python GUI_Manager.py```
+
 ## Utilization
 
 </p>
