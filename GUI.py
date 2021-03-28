@@ -98,7 +98,6 @@ def register_user():
     if (exists == False): 
         result = db.child("Users").push(data)
         # successful registration message
-
         Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
         
     else:
