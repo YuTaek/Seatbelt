@@ -16,11 +16,11 @@ RC Syed: 101049886</p>
 
 This password generator acts as a tool that is able to generate a password that follow the guidelines a user sets. Additionally, the password manager would have a secure storage and management of passwords in an encrypted database and allow user to receive them on demand. 
 
-## Step 1: Clone the Repo
+### Step 1: Clone the Repo
 ```git clone https://github.com/YuTaek/Seatbelt.git```
 ```cd Seatbelt```
 
-# Step 2: Run the Program
+### Step 2: Run the Program
 ``` python GUI_Manager.py```
 
 
