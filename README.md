@@ -19,7 +19,7 @@ This password generator acts as a tool that is able to generate a password that 
 ### Step 1: Dependencies
 This program is created utilizing python, so the user must have python downloaded in order to run the program. Additionally, this program utilizes pyrebase, so the user must run:
 
-```pip install pyrebase```
+```pip install pyrebase4```
 
 ### Step 1: Clone the Repo
 ```git clone https://github.com/YuTaek/Seatbelt.git```</p>
