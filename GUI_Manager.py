@@ -169,7 +169,7 @@ def storepassword():
         messagebox.showinfo(title="Weak", message="Your password is too weak")
 
     elif p ==1:
-        messagebox.showinfo(title="Medium", message="Your password is at medium strenth")
+        messagebox.showinfo(title="Medium", message="Your password is at medium strength")
     else:
          if (exists == False):
             nonce, encrypted = encrypt_firebase_pw(password_info, masterpw)
