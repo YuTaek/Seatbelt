@@ -286,6 +286,7 @@ def Update():
     global updateword_entry
     global website_entry
     
+    
     updatename = StringVar()
     updateword = StringVar()
     updatewebsite = StringVar()
@@ -310,7 +311,18 @@ def Update():
     Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange",
            command=UpdatePassword).pack()
 
+
+def listMessageBox(arr):
+    window=Tk()
+    window.title("Compromised Passwords")
+    window.geometry("500x200")    
+    listbox=Listbox(window)
+    listbox.pack(fill=BOTH, expand=1) #adds listbox to window
+    [listbox.insert(END, row) for row in arr] #one line for loop
+    window.mainloop()
+
 def UpdatePassword():
+
     username = updatename.get()
     website = updatewebsite.get()
     password = updateword.get()
@@ -336,6 +348,7 @@ def UpdatePassword():
     length = length - 2
     current = 0 
     found = False
+    decryptedold = ""
 
     if (all_users.each() is not None):
         for users in all_users.each():
@@ -343,17 +356,35 @@ def UpdatePassword():
                 if (users.val()['website'] == website):
                     if (users.val()['name'] == username): 
                         found = True
+                        decryptedold = decrypt_firebase_pw(users.val()['password'], users.val()['nonce'], masterpw)
                         print (users.key())
                         nonce, encrypted = encrypt_firebase_pw(password, masterpw)
                         db.child("Users").child(storage_info).child(users.key()).update({"password": encrypted, "nonce": nonce})
                 current = current + 1
     if (found == False):
         messagebox.showinfo(title="Oops", message="There was no entry found.")
+    else:
+        all_users = db.child("Users").child(storage_info).get()
+        length = 0
+        if (all_users.each() is not None):
+            for users in all_users.each():
+                length = length + 1
+            
+        length = length - 2
+        current = 0 
+        found = False
+        arr = ["placeholder"]
+        if (all_users.each() is not None):
+            for users in all_users.each():
+                if (current < length):
+                    decrypted = decrypt_firebase_pw(users.val()['password'], users.val()['nonce'], masterpw)
+                    if (decrypted == decryptedold):
+                        arr.append(users.val()['website'] + ": " + users.val()['name'])
+                    current = current + 1
 
-    #delete(conn)
-    #main(useruid, masterpw)
-    #update in firestore
-
+        arr[0] = "You have " + str(len(arr)-1) + " compromised passwords for the following websites and usernames:"
+    
+        listMessageBox(arr)
     
 
 def Sync():
