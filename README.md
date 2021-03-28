@@ -1,7 +1,7 @@
 Seatbelt is a simple password manager that can be synced locally or using Firestore. This is a project created for COMP4019.
 
 
-Group Members:</p>
+## Group Members:</p>
 Yutaek Hwang: 101073993 </p>
 Naveed Hossain: 101049011</p>
 Zarish Owais: 100712733</p>
