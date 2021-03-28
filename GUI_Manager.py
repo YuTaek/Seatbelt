@@ -240,7 +240,6 @@ def register_user():
 
     
     if (exists == False): 
-        result = db.child("Users").push(data)
         # successful registration message
         userhash = encrypt_master(username_info)
         passwordhash = encrypt_master(password_info)
