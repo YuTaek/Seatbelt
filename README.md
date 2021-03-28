@@ -20,6 +20,7 @@ This password generator acts as a tool that is able to generate a password that 
 This program is created utilizing python, so the user must have python downloaded in order to run the program. Additionally, this program utilizes pyrebase, so the user must run:
 
 ```pip install pyrebase4```
+'''pip install pyperclip'''
 
 ### Step 1: Clone the Repo
 ```git clone https://github.com/YuTaek/Seatbelt.git```</p>
