@@ -3,6 +3,8 @@ from tkinter import messagebox
 import os
 import pyrebase
 from EncryptionAndDecryption import *
+import random, string
+import pyperclip
 
 
 useruid = ""
