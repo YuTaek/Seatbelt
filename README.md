@@ -1,4 +1,4 @@
-Seatbelt is a simple password manager that can be synced locally or using Firestore. This is a project created for COMP4019.
+Seatbelt is a simple password manager that can be synced locally or using Firestore. This is a project created for COMP4109.
 
 
 ## Group Members:</p>
