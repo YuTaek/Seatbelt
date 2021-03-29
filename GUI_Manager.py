@@ -31,7 +31,7 @@ def register():
     global register_screen
     register_screen = Toplevel(main_screen)
     register_screen.title("Account Registration")
-    register_screen.geometry("400x250")
+    register_screen.geometry("650x525")
 
     # text variables
     global username
@@ -41,19 +41,23 @@ def register():
     username = StringVar()
     password = StringVar()
 
-    Label(register_screen, text="Please input registration details below", font=("Arial", 17), width=60,
-          bg="orange").pack()
+    Label(register_screen, text="Please input registration details", font=("Arial", 23), width=90, height=2, bg="orange").pack()
     Label(register_screen, text="").pack()
-    username_lable = Label(register_screen, text="New Username: ", font=("Arial", 16)).pack()
-    username_entry = Entry(register_screen, textvariable=username)
+    Label(register_screen, text="").pack()
+    username_lable = Label(register_screen, text="New Username: ", font=("Arial", 18)).pack()
+    username_entry = Entry(register_screen, textvariable=username, font=("Arial", 16),width=30)
     username_entry.pack()
     Label(register_screen, text="").pack()
-    password_lable = Label(register_screen, text="New Password: ", font=("Arial", 16)).pack()
-    password_entry = Entry(register_screen, textvariable=password, show='*')
+    Label(register_screen, text="").pack()
+    Label(register_screen, text="").pack()
+    password_lable = Label(register_screen, text="New Password: ", font=("Arial", 18)).pack()
+    password_entry = Entry(register_screen, textvariable=password, show='*', font=("Arial", 16),width=30)
     password_entry.pack()
     Label(register_screen, text="").pack()
-    Button(register_screen, text="Click here to register", font=("Arial", 16), width=20, height=1, bg="orange",
-           command=register_user).pack()
+    Label(register_screen, text="").pack()
+    Label(register_screen, text="").pack()
+    Label(register_screen, text="").pack()
+    Button(register_screen, text="Click here to register", font=("Arial", 16), width=20, height=1, bg="orange", command=register_user).pack()
 
 
 # login window
@@ -61,7 +65,7 @@ def login():
     global login_screen
     login_screen = Toplevel(main_screen)
     login_screen.title("Account Login")
-    login_screen.geometry("400x250")
+    login_screen.geometry("650x525")
 
     # text variables
     global username_verify
@@ -71,24 +75,30 @@ def login():
     username_verify = StringVar()
     password_verify = StringVar()
 
-    Label(login_screen, text="Please input login details below", font=("Arial", 17), bg="orange", width=60).pack()
+    Label(login_screen, text="Please input login details", font=("Arial", 23), bg="orange", width=90, height=2).pack()
     Label(login_screen, text="").pack()
-    Label(login_screen, text="Username: ", font=("Arial", 16)).pack()
-    username_login_entry = Entry(login_screen, textvariable=username_verify)
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="Username: ", font=("Arial", 18)).pack()
+    username_login_entry = Entry(login_screen, textvariable=username_verify, font=("Arial", 16),width=30)
     username_login_entry.pack()
     Label(login_screen, text="").pack()
-    Label(login_screen, text="Password: ", font=("Arial", 16)).pack()
-    password_login_entry = Entry(login_screen, textvariable=password_verify, show='*')
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="Password: ", font=("Arial", 18)).pack()
+    password_login_entry = Entry(login_screen, textvariable=password_verify, show='*', font=("Arial", 16),width=30)
     password_login_entry.pack()
     Label(login_screen, text="").pack()
-    Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1,
-           command=login_verify).pack()
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="").pack()
+    Label(login_screen, text="").pack()
+    Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1,command=login_verify).pack()
+
 
 def store():
     global store_account
     store_account = Toplevel(login_success_screen)
     store_account.title("Store Acoount")
-    store_account.geometry("400x250")
+    store_account.geometry("650x525")
 
     # text variables
     global storename
@@ -103,25 +113,25 @@ def store():
     website = StringVar()
     iv = StringVar()
 
-    Label(store_account, text="Please store information below", font=("Arial", 17), width=60,
-          bg="orange").pack()
+    Label(store_account, text="Please store information below", font=("Arial", 20), width=60,bg="orange", height=2).pack()
     Label(store_account, text="").pack()
-    username_lable = Label(store_account, text="New Username: ", font=("Arial", 16)).pack()
-    storename_entry = Entry(store_account, textvariable=storename)
+    username_lable = Label(store_account, text="New Username: ", font=("Arial", 18)).pack()
+    storename_entry = Entry(store_account, textvariable=storename, font=("Arial", 16),width=30)
     storename_entry.pack()
     Label(store_account, text="").pack()
-    password_lable = Label(store_account, text="New Password: ", font=("Arial", 16)).pack()
-    storeword_entry = Entry(store_account, textvariable=storeword)
+    Label(store_account, text="").pack()
+    password_lable = Label(store_account, text="New Password: ", font=("Arial", 18)).pack()
+    storeword_entry = Entry(store_account, textvariable=storeword, font=("Arial", 16),width=30)
     storeword_entry.pack()
     Label(store_account, text="").pack()
-    site_lable = Label(store_account, text="Website: ", font=("Arial", 16)).pack()
-    website_entry = Entry(store_account, textvariable=website)
+    Label(store_account, text="").pack()
+    site_lable = Label(store_account, text="Website: ", font=("Arial", 18)).pack()
+    website_entry = Entry(store_account, textvariable=website, font=("Arial", 16),width=30)
     website_entry.pack()
     Label(store_account, text="").pack()
-
-    Button(store_account, text="Click here to store", font=("Arial", 16), width=20, height=1, bg="orange",
-           command= storepassword).pack()
-
+    Label(store_account, text="").pack()
+    Label(store_account, text="").pack()
+    Button(store_account, text="Click here to store", font=("Arial", 18), width=20, height=1, bg="orange",command= storepassword).pack()
 
 
 
@@ -216,9 +226,6 @@ def Strength(input):
 
 
 
-
-
-
 def register_user():
 
     username_info = username.get()
@@ -233,7 +240,7 @@ def register_user():
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
 
-    is_ok = messagebox.askokcancel(title=username_info,message=f"These are the details entered : \nUserName: {username_info} \nPassword: {password_info} \nAre you sure you want to save this? ")
+    is_ok = messagebox.askokcancel(title=username_info,message=f"These are the details entered: \nUsername: {username_info} \nPassword:  {password_info} \nAre you sure you want to save this? ")
     if is_ok:
         if (exists == False):
             userhash = encrypt_master(username_info)
@@ -241,7 +248,8 @@ def register_user():
             data = {"name": userhash, "password": passwordhash}
             result = db.child("Users").push(data)
             #db.child(username_info).push(data)
-            Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+            Label(register_screen, text="")
+            Label(register_screen, text="\nRegistration Successful!", fg="black", font=("Arial", 16)).pack()
 
         else:
             messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
@@ -293,14 +301,10 @@ def login_sucess():
     global login_success_screen
     login_success_screen = Toplevel(login_screen)
     login_success_screen.title("User Authenticated")
-    login_success_screen.geometry("400x250")
+    login_success_screen.geometry("650x525")
+    Label(login_success_screen, text="Login Authorized", width=90, height=2, bg="orange", font=("Arial", 20)).pack()
+
     Label(login_success_screen, text="").pack()
-    Label(login_success_screen, text="Login Authorized", font=("Arial", 16)).pack()
-    Label(login_success_screen, text="").pack()
-
-
-
-
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Store Password", font=("Arial", 16), bg="orange", command=store).pack()
     Label(login_success_screen, text="").pack()
@@ -312,6 +316,7 @@ def login_sucess():
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Password Generator", font=("Arial", 16), bg="orange", command=password_generator_page).pack()
     Label(login_success_screen, text="").pack()
+    Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
 
@@ -320,7 +325,7 @@ def password_generator_page():
     global generator_screen
     generator_screen = Toplevel(login_success_screen)
     generator_screen.title("Password Generator")
-    generator_screen.geometry("600x400")
+    generator_screen.geometry("650x525")
     
     global password_length
     global pwd_length_input
@@ -341,42 +346,41 @@ def password_generator_page():
     
     
 #int input for password length (minimum 12)
-    Label(generator_screen, text="Enter Desired password length: Number between 12 and 32", font=("Arial", 14), width=100, bg="orange").pack()
+    Label(generator_screen, text="Enter desired password length: Number between 12 and 32", font=("Arial", 17), width=100, bg="orange", height=2).pack()
     Label(generator_screen, text="").pack()
-    pwd_length_Label = Label(generator_screen, text="Password Length: ", font=("Arial", 16)).pack()
-    pwd_length_input = Entry(generator_screen, textvariable=password_length)
+    pwd_length_Label = Label(generator_screen, text="Password Length: ", font=("Arial", 14)).pack()
+    pwd_length_input = Entry(generator_screen, textvariable=password_length, font=("Arial", 14), width=4)
     pwd_length_input.pack()
     
     Label(generator_screen, text="").pack()
     Label(generator_screen, text="I need this password to have:")
     
  
-    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue = True, offvalue= False, command = addSpecChar)
+    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue = True, offvalue= False, command = addSpecChar, font=("Arial", 14))
     c1.pack()
-    c2 = Checkbutton(generator_screen, text="Upper Case", variable=UpperChar, onvalue = True, offvalue = False, command = addUpperChar)
+    c2 = Checkbutton(generator_screen, text="Upper Case", variable=UpperChar, onvalue = True, offvalue = False, command = addUpperChar, font=("Arial", 14))
     c2.pack()
-    c3 = Checkbutton(generator_screen, text="Lower Case", variable=LowerChar, onvalue = True, offvalue=False, command = addLowerChar)
+    c3 = Checkbutton(generator_screen, text="Lower Case", variable=LowerChar, onvalue = True, offvalue=False, command = addLowerChar, font=("Arial", 14))
     c3.pack()
-    c4 = Checkbutton(generator_screen, text="Numbers", variable=NumChar, onvalue = True, offvalue = False, command = addNumChar)
+    c4 = Checkbutton(generator_screen, text="Numbers", variable=NumChar, onvalue = True, offvalue = False, command = addNumChar, font=("Arial", 14))
     c4.pack()
     
     
     Label(generator_screen, text="").pack()
-    Button(generator_screen, text="Generate password", font=("Arial", 16), width=20, height=1, bg="orange", command=pwd_generator).pack()
+    Button(generator_screen, text="Generate password", font=("Arial", 14), width=20, height=1, bg="orange", command=pwd_generator).pack()
     Label(generator_screen, text="").pack()
-    Entry(generator_screen , textvariable = pwd_gen).pack()
+    Entry(generator_screen , textvariable = pwd_gen, font=("Arial", 14), width=36).pack()
     Label(generator_screen, text="").pack()
     
-    Button(generator_screen, text = 'COPY TO CLIPBOARD', command = copy_password).pack()
+    Button(generator_screen, text = 'Copy to Clipboard', font=("Arial", 14), width=20, height=1, bg="orange", command = copy_password).pack()
     Label(generator_screen, text="").pack()
-    Button(generator_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_pwd_generator).pack()
+    Button(generator_screen, text="Exit", font=("Arial", 14), bg="orange", command=delete_pwd_generator).pack()
     Label(generator_screen, text="").pack()
     
 
 #Copy Password
 def copy_password():
     pyperclip.copy(pwd_gen.get())
-
 
     
 def addSpecChar():
@@ -438,8 +442,7 @@ def Invalid_entry():
     Label(Invalid_screen, text="").pack()
     Label(Invalid_screen, text="Invalid entry, please enter a value between 12 and 32", font=("Arial", 16)).pack()
     Label(Invalid_screen, text="").pack()
-    Button(Invalid_screen, text="OK", font=("Arial", 16), bg="orange",
-           command=delete_Invalid_screen).pack()
+    Button(Invalid_screen, text="OK", font=("Arial", 16), bg="orange", command=delete_Invalid_screen).pack()
 
 def delete_Invalid_entry():
     Invalid_screen.destroy()  
@@ -454,7 +457,7 @@ def Update():
     global update_account
     update_account = Toplevel(login_success_screen)
     update_account.title("Update Password Info")
-    update_account.geometry("400x250")
+    update_account.geometry("650x525")
 
     # text variables
     global updatename
@@ -470,24 +473,26 @@ def Update():
     updatewebsite = StringVar()
     iv = StringVar()
 
-    Label(update_account, text="Please update information below", font=("Arial", 17), width=60,
-          bg="orange").pack()
+    Label(update_account, text="Please update information below", font=("Arial", 20), width=60,bg="orange", height=2).pack()
     Label(update_account, text="").pack()
-    username_lable = Label(update_account, text="Username: ", font=("Arial", 16)).pack()
-    updatename_entry = Entry(update_account, textvariable=updatename)
+    username_lable = Label(update_account, text="Username: ", font=("Arial", 18)).pack()
+    updatename_entry = Entry(update_account, textvariable=updatename, font=("Arial", 16), width=30)
     updatename_entry.pack()
     Label(update_account, text="").pack()
-    site_lable = Label(update_account, text="Website: ", font=("Arial", 16)).pack()
-    website_entry = Entry(update_account, textvariable=updatewebsite)
+    Label(update_account, text="").pack()
+    site_lable = Label(update_account, text="Website: ", font=("Arial", 18)).pack()
+    website_entry = Entry(update_account, textvariable=updatewebsite, font=("Arial", 16), width=30)
     website_entry.pack()
     Label(update_account, text="").pack()
-    password_lable = Label(update_account, text="New Password: ", font=("Arial", 16)).pack()
-    updateword_entry = Entry(update_account, textvariable=updateword)
+    Label(update_account, text="").pack()
+    password_lable = Label(update_account, text="New Password: ", font=("Arial", 18)).pack()
+    updateword_entry = Entry(update_account, textvariable=updateword, font=("Arial", 16), width=30)
     updateword_entry.pack()
     Label(update_account, text="").pack()
+    Label(update_account, text="").pack()
+    Label(update_account, text="").pack()
 
-    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange",
-           command=UpdatePassword).pack()
+    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange", command=UpdatePassword).pack()
 
 
 def listMessageBox(arr):
@@ -573,7 +578,6 @@ def Sync():
 
 def Search():
     global search
-
     global search_entry
     global site_entry
     global searchvar
@@ -581,18 +585,24 @@ def Search():
     searchvar = StringVar()
     sitevar = StringVar()
     search = Toplevel(login_success_screen)
+    search.geometry("650x525")
     search.title("Search Username")
-    Label(search, text="Search Username below", font=("Arial", 17), bg="orange", width=60).pack()
+    Label(search, text="Search Username below", font=("Arial", 20), bg="orange", width=60, height=2).pack()
     Label(search, text="").pack()
-    Label(search, text="Username: ", font=("Arial", 16)).pack()
-    search_entry = Entry(search, textvariable= searchvar)
+    Label(search, text="").pack()
+    Label(search, text="Username: ", font=("Arial", 18)).pack()
+    search_entry = Entry(search, textvariable= searchvar, font=("Arial", 16), width=30)
     search_entry.pack()
     Label(search, text="").pack()
-    Label(search, text="Website: ", font=("Arial", 16)).pack()
-    site_entry = Entry(search, textvariable=sitevar)
+    Label(search, text="").pack()
+    Label(search, text="Website: ", font=("Arial", 18)).pack()
+    site_entry = Entry(search, textvariable=sitevar, font=("Arial", 16), width=30)
     site_entry.pack()
     Label(search, text="").pack()
-    Button(search, text="Search", font=("Arial", 16), bg="orange", command=FoundUser).pack()
+    Label(search, text="").pack()
+    Label(search, text="").pack()
+    Label(search, text="").pack()
+    Button(search, text="Search", font=("Arial", 18), bg="orange", command=FoundUser).pack()
 
 def FoundUser():
     storage_info = useruid
@@ -682,20 +692,20 @@ def delete_user_not_found_screen():
 def main_account_screen():
     global main_screen
     main_screen = Tk()  # GUI window creation
-    main_screen.geometry("400x300")  # size of the window
+    main_screen.geometry("650x525")  # size of the window
     main_screen.title("Account Login")  # window title
-    Label(text="Password Manager", bg="Orange", width="300", height="2", font=("Arial", 23)).pack()
+    Label(text="Password Manager", bg="Orange", width="300", height="2", font=("Arial", 34)).pack()
     Label(text="").pack()
     Label(text="").pack()
-    Button(text="User Login", bg="orange", height="1", width="20", command=login,
-           font=("Arial", 16)).pack()  # login button
     Label(text="").pack()
     Label(text="").pack()
-    Button(text="User Registration", bg="orange", height="1", width="20", command=register,
-           font=("Arial", 16)).pack()  # register button
-
+    Button(text="User Login", bg="orange", height="1", width="25", command=login,font=("Arial", 20)).pack()  # login button
     Label(text="").pack()
-
+    Label(text="").pack()
+    Label(text="").pack()
+    Label(text="").pack()
+    Button(text="User Registration", bg="orange", height="1", width="25", command=register,font=("Arial", 20)).pack()  # register button
+    Label(text="").pack()
 
 
     main_screen.mainloop()  # intializes GUI
