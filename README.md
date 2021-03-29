@@ -57,7 +57,7 @@ Implementing the GUI
 **Naveed Hossain**
 
 Roles:
-Created Firestore database, implemented the storage and retrieval of passwords in Firestore
+Created Firestore database, implemented the storage and retrieval of passwords in Firestore, added password strength checking
 
 **Zarish Owais**
 
