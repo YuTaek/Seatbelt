@@ -238,26 +238,27 @@ def register_user():
 
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
-
- # writes to the database
-    data = {
-        'name': username_info,
-        'password': password_info,
-    }
     
-    username_entry.delete(0, END)
-    password_entry.delete(0, END)
-    
-    if (exists == False): 
-        # successful registration message
-        userhash = encrypt_master(username_info)
-        passwordhash = encrypt_master(password_info)
-        data = {"name": userhash, "password": passwordhash}
-        result = db.child("Users").push(data)
-        #db.child(username_info).push(data)
-        Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
     else:
-        messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
+ # writes to the database
+        data = {
+            'name': username_info,
+            'password': password_info,
+        }
+        
+        username_entry.delete(0, END)
+        password_entry.delete(0, END)
+        
+        if (exists == False): 
+            # successful registration message
+            userhash = encrypt_master(username_info)
+            passwordhash = encrypt_master(password_info)
+            data = {"name": userhash, "password": passwordhash}
+            result = db.child("Users").push(data)
+            #db.child(username_info).push(data)
+            Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+        else:
+            messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
 
 # login button event handler
 def login_verify():
