@@ -28,7 +28,7 @@ def password_generator_page():
     Label(generator_screen, text="Enter Desired password length: Number between 12 and 32", font=("Arial", 14), width=100, bg="orange").pack()
     Label(generator_screen, text="").pack()
     pwd_length_Label = Label(generator_screen, text="Password Length: ", font=("Arial", 16)).pack()
-    pwd_length_input = Entry(generator_screen, textvariable=password_length)
+    pwd_length_input = Entry(generator_screen, textvariable=password_length, font=("Arial", 16), width=4)
     pwd_length_input.pack()
     
     Label(generator_screen, text="").pack()
@@ -48,10 +48,10 @@ def password_generator_page():
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Generate password", font=("Arial", 16), width=20, height=1, bg="orange", command=pwd_generator).pack()
     Label(generator_screen, text="").pack()
-    Entry(generator_screen , textvariable = pwd_gen).pack()
+    Entry(generator_screen , textvariable = pwd_gen, font=("Arial", 16), width=32).pack()
     Label(generator_screen, text="").pack()
     
-    Button(generator_screen, text = 'COPY TO CLIPBOARD', command = copy_password).pack()
+    Button(generator_screen, text = 'Copy to Clipboard', font=("Arial", 16), width=32, height=1, bg="orange", command = copy_password).pack()
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_pwd_generator).pack()
     Label(generator_screen, text="").pack()
