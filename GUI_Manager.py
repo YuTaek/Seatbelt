@@ -230,7 +230,8 @@ def register_user():
     print(p)
 
     for users in all_users.each():
-        if (users.val()['name'] == username_info):
+
+        if (users.val()['name'] == encrypt_master(username_info)):
             exists = True
 
     if len(username_info) == 0 or len(password_info) == 0:
@@ -252,7 +253,6 @@ def register_user():
         elif p == 1:
             messagebox.showinfo(title="Medium", message="Your password is at medium strength")
         else:
-
          if (exists == False):
             # successful registration message
             userhash = encrypt_master(username_info)
