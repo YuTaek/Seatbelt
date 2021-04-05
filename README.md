@@ -20,6 +20,7 @@ This password generator acts as a tool that is able to generate a password that 
 This program is created utilizing python, so the user must have python downloaded in order to run the program. Additionally, this program utilizes pyrebase, so the user must run:
 
 ```pip install pyrebase4```
+```pip install pyperclip```
 
 ### Step 1: Clone the Repo
 ```git clone https://github.com/YuTaek/Seatbelt.git```</p>
@@ -33,6 +34,12 @@ This program is created utilizing python, so the user must have python downloade
 ## Utilization
 
 </p>
+To begin, the user is asked to log in or create an account.</p>
+
+![image](https://user-images.githubusercontent.com/47705261/112763066-f917fb00-8fd0-11eb-9fcc-d3a41ffb6e0e.png)</p>
+
+If the user creates an account, the SHA3 hash of both the username and the password is stored, for security reasons. Only unique usernames and strong passwords will be accepted to create an account. </p>
+![image](https://user-images.githubusercontent.com/47705261/112763149-3aa8a600-8fd1-11eb-966f-437d97bd0d30.png)</p>
 
 ## Credits
 
@@ -40,7 +47,7 @@ This program is created utilizing python, so the user must have python downloade
 **RC Syed**
 
 Roles:
-Assisted in storing and retrieving passwords, implemented the login and registration capabalities with Firestore, implemented local syncing and storing and retrieving with SQLite, implemented the update feature and finding compromised passwords, implemented the sha3 hashing for user login and storage of login, and the block cipher method EAX for the storage of passwords, implemented the decryption of passwords when storing them 
+Assisted in storing and retrieving passwords in Firestore, implemented the login and registration capabalities with Firestore, implemented local syncing and storing and retrieving with SQLite, implemented the update feature and finding compromised passwords, implemented the sha3 hashing for user login and storage of login, and the block cipher method EAX for the storage of passwords, implemented the decryption of passwords when searching for them 
 
 **Yutaek Hwang**
 
@@ -50,7 +57,7 @@ Implementing the GUI
 **Naveed Hossain**
 
 Roles:
-Created Firestore database, implemented the storage and retrieval of passwords in Firestore
+Created Firestore database, implemented the storage and retrieval of passwords in Firestore, added password strength checking
 
 **Zarish Owais**
 

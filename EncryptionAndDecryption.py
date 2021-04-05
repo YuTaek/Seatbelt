@@ -74,7 +74,8 @@ def decrypt_pw(website, username, master):
 
     if (nonce is None):
         return False
-
+    if (nonce == False):
+        return False
     nonce = bytes.fromhex(nonce)
     password = bytes.fromhex(ciphertext)
     print (nonce)

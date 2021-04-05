@@ -71,7 +71,6 @@ def create_password(conn, password):
 def find_encrypted(conn, website, username):
     
     cur = conn.cursor()
-    cur.execute("SELECT password FROM passwords WHERE website=? AND username=?", (website,username))
     try:
         cur.execute("SELECT password FROM passwords WHERE website=? AND username=?", (website,username))
     except:
@@ -104,7 +103,10 @@ def update_password(conn, task):
 def find_nonce(conn, website, username):
     
     cur = conn.cursor()
-    cur.execute("SELECT nonce FROM passwords WHERE website=? AND username=?", (website, username))
+    try:
+        cur.execute("SELECT nonce FROM passwords WHERE website=? AND username=?", (website, username))
+    except:
+        return False
 
     rows = cur.fetchall()
 
