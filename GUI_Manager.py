@@ -175,21 +175,16 @@ def storepassword():
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Empty", message="Please fill up every field")
 
-    if p == 0:
-        messagebox.showinfo(title="Weak", message="Your password is too weak")
 
-    elif p ==1:
-        messagebox.showinfo(title="Medium", message="Your password is at medium strength")
     else:
-         if (exists == False):
+        if (exists == False):
             nonce, encrypted = encrypt_firebase_pw(password_info, masterpw)
             data = {"name": username_info, "password": encrypted, "website": website_info, "nonce": nonce}
             result = db.child("Users").child(useruid).push(data)
 
             Label(store_account, text="Password Storage Successful", fg="orange", font=("calibri", 11)).pack()
-         else:
+        else:
             messagebox.showerror("showerror", "Data not stored")
-
 
 
 def Strength(input):
@@ -231,6 +226,8 @@ def register_user():
     password_info = password.get()
     exists = False
     all_users = db.child("Users").get()
+    p = Strength(password_info)
+    print(p)
 
     for users in all_users.each():
         if (users.val()['name'] == username_info):
@@ -238,26 +235,33 @@ def register_user():
 
     if len(username_info) == 0 or len(password_info) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
-    
+
     else:
- # writes to the database
+        # writes to the database
         data = {
             'name': username_info,
             'password': password_info,
         }
-        
+
         username_entry.delete(0, END)
         password_entry.delete(0, END)
-        
-        if (exists == False): 
+
+        if p == 0:
+            messagebox.showinfo(title="Weak", message="Your password is too weak")
+
+        elif p == 1:
+            messagebox.showinfo(title="Medium", message="Your password is at medium strength")
+        else:
+
+         if (exists == False):
             # successful registration message
             userhash = encrypt_master(username_info)
             passwordhash = encrypt_master(password_info)
             data = {"name": userhash, "password": passwordhash}
             result = db.child("Users").push(data)
-            #db.child(username_info).push(data)
+            # db.child(username_info).push(data)
             Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
-        else:
+         else:
             messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
 
 # login button event handler
