@@ -5,7 +5,8 @@ import pyrebase
 from EncryptionAndDecryption import *
 import random, string
 import pyperclip
-#from PasswordGenerator import * 
+
+# from PasswordGenerator import *
 
 
 useruid = ""
@@ -26,6 +27,7 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 
 db = firebase.database()
 
+
 # registration window
 def register():
     global register_screen
@@ -41,23 +43,25 @@ def register():
     username = StringVar()
     password = StringVar()
 
-    Label(register_screen, text="Please input registration details", font=("Arial", 23), width=90, height=2, bg="orange").pack()
+    Label(register_screen, text="Please input registration details", font=("Arial", 23), width=90, height=2,
+          bg="orange").pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
     username_lable = Label(register_screen, text="New Username: ", font=("Arial", 18)).pack()
-    username_entry = Entry(register_screen, textvariable=username, font=("Arial", 16),width=30)
+    username_entry = Entry(register_screen, textvariable=username, font=("Arial", 16), width=30)
     username_entry.pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
     password_lable = Label(register_screen, text="New Password: ", font=("Arial", 18)).pack()
-    password_entry = Entry(register_screen, textvariable=password, show='*', font=("Arial", 16),width=30)
+    password_entry = Entry(register_screen, textvariable=password, show='*', font=("Arial", 16), width=30)
     password_entry.pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
     Label(register_screen, text="").pack()
-    Button(register_screen, text="Click here to register", font=("Arial", 16), width=20, height=1, bg="orange", command=register_user).pack()
+    Button(register_screen, text="Click here to register", font=("Arial", 16), width=20, height=1, bg="orange",
+           command=register_user).pack()
 
 
 # login window
@@ -79,21 +83,22 @@ def login():
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="Username: ", font=("Arial", 18)).pack()
-    username_login_entry = Entry(login_screen, textvariable=username_verify, font=("Arial", 16),width=30)
+    username_login_entry = Entry(login_screen, textvariable=username_verify, font=("Arial", 16), width=30)
     username_login_entry.pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="Password: ", font=("Arial", 18)).pack()
-    password_login_entry = Entry(login_screen, textvariable=password_verify, show='*', font=("Arial", 16),width=30)
+    password_login_entry = Entry(login_screen, textvariable=password_verify, show='*', font=("Arial", 16), width=30)
     password_login_entry.pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
     Label(login_screen, text="").pack()
-    Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1,command=login_verify).pack()
+    Button(login_screen, text="Click here to login", bg="orange", font=("Arial", 16), width=20, height=1,
+           command=login_verify).pack()
 
-
+#Store password page
 def store():
     global store_account
     store_account = Toplevel(login_success_screen)
@@ -107,34 +112,35 @@ def store():
     global storename_entry
     global storeword_entry
     global website_entry
-    
+
     storename = StringVar()
     storeword = StringVar()
     website = StringVar()
     iv = StringVar()
 
-    Label(store_account, text="Please store information below", font=("Arial", 20), width=60,bg="orange", height=2).pack()
+    Label(store_account, text="Please store information below", font=("Arial", 20), width=60, bg="orange",
+          height=2).pack()
     Label(store_account, text="").pack()
     username_lable = Label(store_account, text="New Username: ", font=("Arial", 18)).pack()
-    storename_entry = Entry(store_account, textvariable=storename, font=("Arial", 16),width=30)
+    storename_entry = Entry(store_account, textvariable=storename, font=("Arial", 16), width=30)
     storename_entry.pack()
     Label(store_account, text="").pack()
     Label(store_account, text="").pack()
     password_lable = Label(store_account, text="New Password: ", font=("Arial", 18)).pack()
-    storeword_entry = Entry(store_account, textvariable=storeword, font=("Arial", 16),width=30)
+    storeword_entry = Entry(store_account, textvariable=storeword, font=("Arial", 16), width=30)
     storeword_entry.pack()
     Label(store_account, text="").pack()
     Label(store_account, text="").pack()
     site_lable = Label(store_account, text="Website: ", font=("Arial", 18)).pack()
-    website_entry = Entry(store_account, textvariable=website, font=("Arial", 16),width=30)
+    website_entry = Entry(store_account, textvariable=website, font=("Arial", 16), width=30)
     website_entry.pack()
     Label(store_account, text="").pack()
     Label(store_account, text="").pack()
     Label(store_account, text="").pack()
-    Button(store_account, text="Click here to store", font=("Arial", 18), width=20, height=1, bg="orange",command= storepassword).pack()
+    Button(store_account, text="Click here to store", font=("Arial", 18), width=20, height=1, bg="orange",
+           command=storepassword).pack()
 
-
-
+#Store password to the database
 def storepassword():
     username_info = storename.get()
     password_info = storeword.get()
@@ -142,17 +148,12 @@ def storepassword():
     exists = False
     global useruid
     global masterpw
-    print(useruid)
+
     storage_info = useruid
     all_users = db.child("Users").child(useruid).get()
-    # for users in all_users.each():
-    # if (users.val()['website'] == username_info):
-    # exists = True
 
-    # print (master_dm)
 
-    p = Strength(password_info)
-    print(p)
+
 
     length = 0
     if (all_users.each() is not None):
@@ -163,6 +164,8 @@ def storepassword():
     current = 0
 
     print(length)
+
+    # If the username and website is already stored a new password for the same username cannot be stored again.
 
     if (all_users.each() is not None):
         for users in all_users.each():
@@ -188,33 +191,38 @@ def storepassword():
 
 
 def Strength(input):
-
     num = len(input)
 
-    hasLower = False
-    hasUpper = False
-    hasDigit = False
-    specialChar = False
-    normalChars = "abcdefghijklmnopqrstu"
-    "vwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+    # This Fuction checks the strength of the password by checking if password contain lower and upper case characters,digits and special characters
 
+
+    normal_characters = "abcdefghijklmnopqrstu"
+    "vwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+    special_characters = False
+    Lowercase = False
+    Uppercase = False
+    Digit = False
+
+
+
+    # The input is then looped through to the check if the password meets all of the conditions required to be a strong password
     for i in range(num):
         if input[i].islower():
-            hasLower = True
+            Lowercase = True
         if input[i].isupper():
-            hasUpper = True
+            Uppercase = True
         if input[i].isdigit():
-            hasDigit = True
-        if input[i] not in normalChars:
-            specialChar = True
+            Digit = True
+        if input[i] not in normal_characters:
+            special_characters = True
 
-   
-    if (hasLower and hasUpper and
-            hasDigit and specialChar and num >= 8):
+    #  The password is strong when it satisfy all of the condition
+    if (Lowercase and Uppercase and
+            Digit and special_characters and num >= 8):
         return 2
 
-    elif ((hasLower or hasUpper) and
-          hasDigit and num >= 4):
+    elif ((Lowercase or Uppercase) and
+          Digit and num >= 4):
         return 1
     else:
         return 0
@@ -222,13 +230,13 @@ def Strength(input):
 
 
 def register_user():
-    """This function registers a new user by checking if they are unique, and then adding it to the firestore db"""        
+    """This function registers a new user by checking if they are unique, and then adding it to the firestore db"""
     username_info = username.get()
     password_info = password.get()
     exists = False
     all_users = db.child("Users").get()
     p = Strength(password_info)
-    print(p)
+
 
     for users in all_users.each():
 
@@ -254,24 +262,25 @@ def register_user():
         elif p == 1:
             messagebox.showinfo(title="Medium", message="Your password is at medium strength")
         else:
-         if (exists == False):
-            # successful registration message
-            userhash = encrypt_master(username_info)
-            passwordhash = encrypt_master(password_info)
-            data = {"name": userhash, "password": passwordhash}
-            result = db.child("Users").push(data)
-            # db.child(username_info).push(data)
-            Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
-         else:
-            messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
+            if (exists == False):
+                # successful registration message
+                userhash = encrypt_master(username_info)
+                passwordhash = encrypt_master(password_info)
+                data = {"name": userhash, "password": passwordhash}
+                result = db.child("Users").push(data)
+
+                Label(register_screen, text="Registration Successful", fg="orange", font=("calibri", 11)).pack()
+            else:
+                messagebox.showerror("showerror", "Registration Unsuccessful, please choose a unique username")
+
 
 # login button event handler
 def login_verify():
-    """This function verifies a user by querying the firestore db"""       
+    """This function verifies a user by querying the firestore db"""
 
     # retrieve login details
     username1 = username_verify.get()
-    password1 = password_verify.get() 
+    password1 = password_verify.get()
     global useruid
     global masterpw
     # erase the login details after clicking login
@@ -321,19 +330,20 @@ def login_sucess():
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Sync Locally", font=("Arial", 16), bg="orange", command=Sync).pack()
     Label(login_success_screen, text="").pack()
-    Button(login_success_screen, text="Password Generator", font=("Arial", 16), bg="orange", command=password_generator_page).pack()
+    Button(login_success_screen, text="Password Generator", font=("Arial", 16), bg="orange",
+           command=password_generator_page).pack()
     Label(login_success_screen, text="").pack()
     Label(login_success_screen, text="").pack()
     Button(login_success_screen, text="Exit", font=("Arial", 16), bg="orange", command=delete_login_success).pack()
 
 
-#password generator page
+# password generator page
 def password_generator_page():
     global generator_screen
     generator_screen = Toplevel(login_success_screen)
     generator_screen.title("Password Generator")
     generator_screen.geometry("650x525")
-    
+
     global password_length
     global pwd_length_input
     global pwd_gen
@@ -341,7 +351,7 @@ def password_generator_page():
     global UpperChar
     global LowerChar
     global NumChar
-    global pwd_space 
+    global pwd_space
 
     password_length = IntVar()
     pwd_gen = StringVar()
@@ -350,73 +360,80 @@ def password_generator_page():
     LowerChar = BooleanVar()
     NumChar = BooleanVar()
     pwd_space = ""
-    
-    
-#int input for password length (minimum 12, max 32). If input is > 32 or <12, then user gets an invalid entry dialog box
-    Label(generator_screen, text="Enter desired password length: Number between 12 and 32", font=("Arial", 17), width=100, bg="orange", height=2).pack()
+
+    # int input for password length (minimum 12, max 32). If input is > 32 or <12, then user gets an invalid entry dialog box
+    Label(generator_screen, text="Enter desired password length: Number between 12 and 32", font=("Arial", 17),
+          width=100, bg="orange", height=2).pack()
     Label(generator_screen, text="").pack()
     pwd_length_Label = Label(generator_screen, text="Password Length: ", font=("Arial", 14)).pack()
     pwd_length_input = Entry(generator_screen, textvariable=password_length, font=("Arial", 14), width=4)
     pwd_length_input.pack()
-    
+
     Label(generator_screen, text="").pack()
     Label(generator_screen, text="I need this password to have:", font=("Arial", 14)).pack()
     Label(generator_screen, text="").pack()
-    
- #Checkbox inputs for password requirements, takes special characters, uppercase, lower case, and numbers
-    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue = True, offvalue= False, font=("Arial", 14))
+
+    # Checkbox inputs for password requirements, takes special characters, uppercase, lower case, and numbers
+    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue=True, offvalue=False,
+                     font=("Arial", 14))
     c1.pack()
-    c2 = Checkbutton(generator_screen, text="Upper Case", variable=UpperChar, onvalue = True, offvalue = False, command = addUpperChar, font=("Arial", 14))
+    c2 = Checkbutton(generator_screen, text="Upper Case", variable=UpperChar, onvalue=True, offvalue=False,
+                     command=addUpperChar, font=("Arial", 14))
     c2.pack()
-    c3 = Checkbutton(generator_screen, text="Lower Case", variable=LowerChar, onvalue = True, offvalue=False, command = addLowerChar, font=("Arial", 14))
+    c3 = Checkbutton(generator_screen, text="Lower Case", variable=LowerChar, onvalue=True, offvalue=False,
+                     command=addLowerChar, font=("Arial", 14))
     c3.pack()
-    c4 = Checkbutton(generator_screen, text="Numbers", variable=NumChar, onvalue = True, offvalue = False, command = addNumChar, font=("Arial", 14))
+    c4 = Checkbutton(generator_screen, text="Numbers", variable=NumChar, onvalue=True, offvalue=False,
+                     command=addNumChar, font=("Arial", 14))
     c4.pack()
-    
- #Generate Password button and output field box
+
+    # Generate Password button and output field box
     Label(generator_screen, text="").pack()
-    Button(generator_screen, text="Generate password", font=("Arial", 14), width=20, height=1, bg="orange", command=pwd_generator).pack()
+    Button(generator_screen, text="Generate password", font=("Arial", 14), width=20, height=1, bg="orange",
+           command=pwd_generator).pack()
     Label(generator_screen, text="").pack()
-    Entry(generator_screen , textvariable = pwd_gen, font=("Arial", 14), width=36).pack()
+    Entry(generator_screen, textvariable=pwd_gen, font=("Arial", 14), width=36).pack()
     Label(generator_screen, text="").pack()
-  
-#copy to clipboard button
-    Button(generator_screen, text = 'Copy to Clipboard', font=("Arial", 14), width=20, height=1, bg="orange", command = copy_password).pack()
+
+    # copy to clipboard button
+    Button(generator_screen, text='Copy to Clipboard', font=("Arial", 14), width=20, height=1, bg="orange",
+           command=copy_password).pack()
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Exit", font=("Arial", 14), bg="orange", command=delete_pwd_generator).pack()
     Label(generator_screen, text="").pack()
-    
 
-#Copy Password
+
+# Copy Password
 def copy_password():
     pyperclip.copy(pwd_gen.get())
 
-  
-  
-        
- #checks for which cehck boxes are selected to build the password space (note: for special characters the limit allowed is currently set to one, so if selected it gets added to the final output array instead of the password space       
-def addUpperChar():     
+
+# checks for which cehck boxes are selected to build the password space (note: for special characters the limit allowed is currently set to one, so if selected it gets added to the final output array instead of the password space
+def addUpperChar():
     global pwd_space
     if UpperChar.get() == True:
-        pwd_space+= string.ascii_uppercase
-    else: 
+        pwd_space += string.ascii_uppercase
+    else:
         return pwd_space
-        
+
+
 def addLowerChar():
     global pwd_space
     if LowerChar.get() == True:
-        pwd_space+= string.ascii_lowercase
-    else: 
+        pwd_space += string.ascii_lowercase
+    else:
         return pwd_space
-        
+
+
 def addNumChar():
     global pwd_space
     if NumChar.get() == True:
-        pwd_space+=string.digits 
-    else: 
+        pwd_space += string.digits
+    else:
         return pwd_space
-        
-#Main password genetor function, generates a password array to be output based on the input lenghtand the selected password requirements     
+
+
+# Main password genetor function, generates a password array to be output based on the input lenghtand the selected password requirements
 def pwd_generator():
     global pwd_space
     pwd_len = password_length.get()
@@ -427,11 +444,11 @@ def pwd_generator():
         addUpperChar()
         addLowerChar()
         addNumChar()
-        
-  #adds 1 special character to the password array  if selected
+
+        # adds 1 special character to the password array  if selected
         if SpecChar.get() == True:
-            pwd_output =([random.choice(string.punctuation) for i in range(1)] 
-                         + [random.choice(pwd_space) for x in range(pwd_len- 1)])
+            pwd_output = ([random.choice(string.punctuation) for i in range(1)]
+                          + [random.choice(pwd_space) for x in range(pwd_len - 1)])
         else:
             pwd_output = [random.choice(pwd_space) for x in range(pwd_len)]
 
@@ -440,14 +457,15 @@ def pwd_generator():
                               + string.ascii_uppercase
                               + string.punctuation
                               + string.digits) for i in range(4)])"""
-   #shuffles the passoword array
+        # shuffles the passoword array
         random.shuffle(pwd_output)
-        password = ''.join(pwd_output)   
+        password = ''.join(pwd_output)
         pwd_gen.set(password)
-   #clears the password array for the next session
-        pwd_space=""
+        # clears the password array for the next session
+        pwd_space = ""
 
-#popup for invalid entry (i.e. less than 12 or greater than 32
+
+# popup for invalid entry (i.e. less than 12 or greater than 32
 def Invalid_entry():
     global Invalid_screen
     Invalid_screen = Toplevel(login_screen)
@@ -458,13 +476,16 @@ def Invalid_entry():
     Label(Invalid_screen, text="").pack()
     Button(Invalid_screen, text="OK", font=("Arial", 16), bg="orange", command=delete_Invalid_screen).pack()
 
+
 def delete_Invalid_entry():
-    Invalid_screen.destroy()  
+    Invalid_screen.destroy()
+
 
 def delete_pwd_generator():
     generator_screen.destroy()
 
-#end of password generator
+
+# end of password generator
 
 
 def Update():
@@ -480,14 +501,14 @@ def Update():
     global updatename_entry
     global updateword_entry
     global website_entry
-    
-    
+
     updatename = StringVar()
     updateword = StringVar()
     updatewebsite = StringVar()
     iv = StringVar()
 
-    Label(update_account, text="Please update information below", font=("Arial", 20), width=60,bg="orange", height=2).pack()
+    Label(update_account, text="Please update information below", font=("Arial", 20), width=60, bg="orange",
+          height=2).pack()
     Label(update_account, text="").pack()
     username_lable = Label(update_account, text="Username: ", font=("Arial", 18)).pack()
     updatename_entry = Entry(update_account, textvariable=updatename, font=("Arial", 16), width=30)
@@ -506,28 +527,30 @@ def Update():
     Label(update_account, text="").pack()
     Label(update_account, text="").pack()
 
-    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange", command=UpdatePassword).pack()
+    Button(update_account, text="Click here to update", font=("Arial", 16), width=20, height=1, bg="orange",
+           command=UpdatePassword).pack()
 
 
 def listMessageBox(arr):
-    window=Tk()
+    window = Tk()
     window.title("Compromised Passwords")
-    window.geometry("500x200")    
-    listbox=Listbox(window)
-    listbox.pack(fill=BOTH, expand=1) #adds listbox to window
-    [listbox.insert(END, row) for row in arr] #one line for loop
+    window.geometry("500x200")
+    listbox = Listbox(window)
+    listbox.pack(fill=BOTH, expand=1)  # adds listbox to window
+    [listbox.insert(END, row) for row in arr]  # one line for loop
     window.mainloop()
 
+
 def UpdatePassword():
-    """This function updates an accounts password in the local and cloud database"""    
+    """This function updates an accounts password in the local and cloud database"""
     username = updatename.get()
     website = updatewebsite.get()
     password = updateword.get()
     global useruid
     global masterpw
     global cwd
-    storage_info = useruid 
-    #update pw locally
+    storage_info = useruid
+    # update pw locally
 
     database = r"%s\pythonsqlite.db" % cwd
     conn = create_connection(database)
@@ -541,9 +564,9 @@ def UpdatePassword():
     if (all_users.each() is not None):
         for users in all_users.each():
             length = length + 1
-        
+
     length = length - 2
-    current = 0 
+    current = 0
     found = False
     decryptedold = ""
 
@@ -551,12 +574,13 @@ def UpdatePassword():
         for users in all_users.each():
             if (current < length):
                 if (users.val()['website'] == website):
-                    if (users.val()['name'] == username): 
+                    if (users.val()['name'] == username):
                         found = True
                         decryptedold = decrypt_firebase_pw(users.val()['password'], users.val()['nonce'], masterpw)
-                        print (users.key())
+                        print(users.key())
                         nonce, encrypted = encrypt_firebase_pw(password, masterpw)
-                        db.child("Users").child(storage_info).child(users.key()).update({"password": encrypted, "nonce": nonce})
+                        db.child("Users").child(storage_info).child(users.key()).update(
+                            {"password": encrypted, "nonce": nonce})
                 current = current + 1
     if (found == False):
         messagebox.showinfo(title="Oops", message="There was no entry found.")
@@ -567,9 +591,9 @@ def UpdatePassword():
         if (all_users.each() is not None):
             for users in all_users.each():
                 length = length + 1
-            
+
         length = length - 2
-        current = 0 
+        current = 0
         found = False
         arr = ["placeholder"]
         if (all_users.each() is not None):
@@ -580,18 +604,19 @@ def UpdatePassword():
                         arr.append(users.val()['website'] + ": " + users.val()['name'])
                     current = current + 1
 
-        arr[0] = "You have " + str(len(arr)-1) + " compromised passwords for the following websites and usernames:"
-    
+        arr[0] = "You have " + str(len(arr) - 1) + " compromised passwords for the following websites and usernames:"
+
         listMessageBox(arr)
-    
+
 
 def Sync():
-    """This syncs the cloud database locally"""    
+    """This syncs the cloud database locally"""
     global useruid
     global masterpw
     main(useruid, masterpw)
     messagebox.showinfo(title="Successful Sync", message="Your data has been successfully synced locally.")
 
+# Search password page
 def Search():
     global search
     global search_entry
@@ -607,7 +632,7 @@ def Search():
     Label(search, text="").pack()
     Label(search, text="").pack()
     Label(search, text="Username: ", font=("Arial", 18)).pack()
-    search_entry = Entry(search, textvariable= searchvar, font=("Arial", 16), width=30)
+    search_entry = Entry(search, textvariable=searchvar, font=("Arial", 16), width=30)
     search_entry.pack()
     Label(search, text="").pack()
     Label(search, text="").pack()
@@ -620,6 +645,7 @@ def Search():
     Label(search, text="").pack()
     Button(search, text="Search", font=("Arial", 18), bg="orange", command=FoundUser).pack()
 
+#This function check if the stored is stored locally or in the Firestore database and displays it to the user
 def FoundUser():
     storage_info = useruid
     username = searchvar.get()
@@ -630,15 +656,17 @@ def FoundUser():
 
     if len(username) == 0 or len(website) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure that each and every field is filled up")
-        
+
     # search locally first
 
     passwordfound = decrypt_pw(website, username, masterpw)
 
     if (passwordfound != False):
-        print ("here")
+        print("here")
         found = True
         Label(search, text=passwordfound, fg="orange", font=("calibri", 11)).pack()
+
+    # next search if password is stored in the Firestore database
 
     if (found == False):
         all_users = db.child("Users").child(storage_info).get()
@@ -647,11 +675,11 @@ def FoundUser():
         if (all_users.each() is not None):
             for users in all_users.each():
                 length = length + 1
-        
-        length = length - 2
-        current = 0 
 
-        print (length)
+        length = length - 2
+        current = 0
+
+        print(length)
 
         if (all_users.each() is not None):
             for users in all_users.each():
@@ -664,6 +692,7 @@ def FoundUser():
                     current = current + 1
     if (found == False):
         Label(search, text="Entry not found", fg="orange", font=("calibri", 11)).pack()
+
 
 # Designing popup for login invalid password
 def password_not_recognised():
@@ -715,14 +744,15 @@ def main_account_screen():
     Label(text="").pack()
     Label(text="").pack()
     Label(text="").pack()
-    Button(text="User Login", bg="orange", height="1", width="25", command=login,font=("Arial", 20)).pack()  # login button
+    Button(text="User Login", bg="orange", height="1", width="25", command=login,
+           font=("Arial", 20)).pack()  # login button
     Label(text="").pack()
     Label(text="").pack()
     Label(text="").pack()
     Label(text="").pack()
-    Button(text="User Registration", bg="orange", height="1", width="25", command=register,font=("Arial", 20)).pack()  # register button
+    Button(text="User Registration", bg="orange", height="1", width="25", command=register,
+           font=("Arial", 20)).pack()  # register button
     Label(text="").pack()
-
 
     main_screen.mainloop()  # intializes GUI
 
