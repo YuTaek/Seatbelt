@@ -345,7 +345,7 @@ def password_generator_page():
     pwd_space = ""
     
     
-#int input for password length (minimum 12)
+#int input for password length (minimum 12, max 32). If input is > 32 or <12, then user gets an invalid entry dialog box
     Label(generator_screen, text="Enter desired password length: Number between 12 and 32", font=("Arial", 17), width=100, bg="orange", height=2).pack()
     Label(generator_screen, text="").pack()
     pwd_length_Label = Label(generator_screen, text="Password Length: ", font=("Arial", 14)).pack()
@@ -353,10 +353,11 @@ def password_generator_page():
     pwd_length_input.pack()
     
     Label(generator_screen, text="").pack()
-    Label(generator_screen, text="I need this password to have:")
+    Label(generator_screen, text="I need this password to have:", font=("Arial", 14)).pack()
+    Label(generator_screen, text="").pack()
     
- 
-    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue = True, offvalue= False, command = addSpecChar, font=("Arial", 14))
+ #Checkbox inputs for password requirements, takes special characters, uppercase, lower case, and numbers
+    c1 = Checkbutton(generator_screen, text="Special Characters", variable=SpecChar, onvalue = True, offvalue= False, font=("Arial", 14))
     c1.pack()
     c2 = Checkbutton(generator_screen, text="Upper Case", variable=UpperChar, onvalue = True, offvalue = False, command = addUpperChar, font=("Arial", 14))
     c2.pack()
@@ -365,13 +366,14 @@ def password_generator_page():
     c4 = Checkbutton(generator_screen, text="Numbers", variable=NumChar, onvalue = True, offvalue = False, command = addNumChar, font=("Arial", 14))
     c4.pack()
     
-    
+ #Generate Password button and output field box
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Generate password", font=("Arial", 14), width=20, height=1, bg="orange", command=pwd_generator).pack()
     Label(generator_screen, text="").pack()
     Entry(generator_screen , textvariable = pwd_gen, font=("Arial", 14), width=36).pack()
     Label(generator_screen, text="").pack()
-    
+  
+#copy to clipboard button
     Button(generator_screen, text = 'Copy to Clipboard', font=("Arial", 14), width=20, height=1, bg="orange", command = copy_password).pack()
     Label(generator_screen, text="").pack()
     Button(generator_screen, text="Exit", font=("Arial", 14), bg="orange", command=delete_pwd_generator).pack()
@@ -382,15 +384,10 @@ def password_generator_page():
 def copy_password():
     pyperclip.copy(pwd_gen.get())
 
-    
-def addSpecChar():
-    global pwd_space
-    if SpecChar.get() == True:
-        pwd_space+=random.choice(string.punctuation)
-    else: 
-        return pwd_space
+  
+  
         
-        
+ #checks for which cehck boxes are selected to build the password space (note: for special characters the limit allowed is currently set to one, so if selected it gets added to the final output array instead of the password space       
 def addUpperChar():     
     global pwd_space
     if UpperChar.get() == True:
@@ -412,28 +409,38 @@ def addNumChar():
     else: 
         return pwd_space
         
-        
+#Main password genetor function, generates a password array to be output based on the input lenghtand the selected password requirements     
 def pwd_generator():
-
+    global pwd_space
     pwd_len = password_length.get()
     if pwd_len < 12 or pwd_len > 32:
         Invalid_entry()
 
     else:
-        pwd_output = [random.choice(pwd_space) for x in range(pwd_len)]
-    
+        addUpperChar()
+        addLowerChar()
+        addNumChar()
+        
+  #adds 1 special character to the password array  if selected
+        if SpecChar.get() == True:
+            pwd_output =([random.choice(string.punctuation) for i in range(1)] 
+                         + [random.choice(pwd_space) for x in range(pwd_len- 1)])
+        else:
+            pwd_output = [random.choice(pwd_space) for x in range(pwd_len)]
+
         """pwd_output = ([random.choice(char) for x in range(pwd_len - 4 )]
                      + [random.choice(string.ascii_lowercase
                               + string.ascii_uppercase
                               + string.punctuation
                               + string.digits) for i in range(4)])"""
-   
+   #shuffles the passoword array
         random.shuffle(pwd_output)
-        password = ''.join(pwd_output)
-    
+        password = ''.join(pwd_output)   
         pwd_gen.set(password)
-   
+   #clears the password array for the next session
+        pwd_space=""
 
+#popup for invalid entry (i.e. less than 12 or greater than 32
 def Invalid_entry():
     global Invalid_screen
     Invalid_screen = Toplevel(login_screen)
