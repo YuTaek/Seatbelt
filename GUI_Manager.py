@@ -222,6 +222,7 @@ def Strength(input):
 
 
 def register_user():
+    """This function registers a new user by checking if they are unique, and then adding it to the firestore db"""        
     username_info = username.get()
     password_info = password.get()
     exists = False
@@ -266,6 +267,8 @@ def register_user():
 
 # login button event handler
 def login_verify():
+    """This function verifies a user by querying the firestore db"""       
+
     # retrieve login details
     username1 = username_verify.get()
     password1 = password_verify.get() 
@@ -509,7 +512,7 @@ def listMessageBox(arr):
     window.mainloop()
 
 def UpdatePassword():
-
+    """This function updates an accounts password in the local and cloud database"""    
     username = updatename.get()
     website = updatewebsite.get()
     password = updateword.get()
@@ -551,6 +554,7 @@ def UpdatePassword():
     if (found == False):
         messagebox.showinfo(title="Oops", message="There was no entry found.")
     else:
+        # this finds all the compromised passwords and puts them together into an array which is displayed to the user
         all_users = db.child("Users").child(storage_info).get()
         length = 0
         if (all_users.each() is not None):
@@ -575,6 +579,7 @@ def UpdatePassword():
     
 
 def Sync():
+    """This syncs the cloud database locally"""    
     global useruid
     global masterpw
     main(useruid, masterpw)
