@@ -9,6 +9,13 @@ print (cwd)
 
 #This would be utilized to check the master password and username
 def encrypt_master(plaintext):
+    """Encrypts the password using SHA3
+        
+        Arguments:
+            plaintext: the plaintext to be hashed
+            return: the hash object
+          
+        """        
     # create a sha3 hash object 
     hash_sha3_512 = hashlib.new("sha3_512", plaintext.encode()) 
     return (hash_sha3_512.hexdigest())

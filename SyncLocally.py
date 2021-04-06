@@ -44,7 +44,7 @@ def create_table(conn, create_table_sql):
     """ create a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
-    :return:
+    :return: id
     """
     try:
         c = conn.cursor()
@@ -57,7 +57,7 @@ def create_password(conn, password):
     Create a new password
     :param conn:
     :param password:
-    :return:
+    :return:  id
     """
 
     sql = ''' INSERT INTO passwords(website, password, nonce, username)
@@ -69,6 +69,12 @@ def create_password(conn, password):
 
 
 def find_encrypted(conn, website, username):
+    """ find the encrypted pw of the given username and website
+    :param conn: Connection object
+    :param website: website name
+    :param username: username name
+    :return: Connection object or None
+    """
     
     cur = conn.cursor()
     try:
@@ -81,6 +87,14 @@ def find_encrypted(conn, website, username):
         return row[0]
 
 def update_pw(conn, website, username, newpw, nonce):
+    """ update the encrypted pw of the given username and website
+    :param conn: Connection object
+    :param website: website name
+    :param username: username name
+    :param newpw: the new encrypted pw
+    :param nonce: the nonce used to encrypt
+    :return: Connection object or None
+    """
     cur = conn.cursor()
     cur.execute("UPDATE passwords SET password=? WHERE website=? AND username=?", (newpw,website,username))
     cur.execute("UPDATE passwords SET nonce =? WHERE website=? AND username=?", (nonce,website,username))
@@ -101,7 +115,12 @@ def update_password(conn, task):
     conn.commit()
 
 def find_nonce(conn, website, username):
-    
+    """ find the nonce of the given username and website
+    :param conn: Connection object
+    :param website: website name
+    :param username: username name
+    :return: Connection object or None
+    """
     cur = conn.cursor()
     try:
         cur.execute("SELECT nonce FROM passwords WHERE website=? AND username=?", (website, username))
@@ -114,6 +133,10 @@ def find_nonce(conn, website, username):
         return row[0]
 
 def delete (conn):
+    """ delete the table
+    :param conn: Connection object
+    :return: Connection object or None
+    """
     cur = conn.cursor()
     try:
         cur.execute("DROP TABLE passwords")
@@ -123,6 +146,8 @@ def delete (conn):
 
 
 def main(useruid, masterpw):
+    """ This function creates the db if doesnt exist, and then goes through the firestore db and adds all of it locally"""
+    
     database = r"%s\pythonsqlite.db" % cwd
     sql_create_passwords_table = """ CREATE TABLE IF NOT EXISTS passwords (
                                         website text,
